@@ -127,19 +127,19 @@ function MetricCard({
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg border shadow-sm">
-      <div className="flex items-start justify-between mb-2">
-        <p className="text-sm font-medium text-slate-600">{label}</p>
+    <div className="bg-white p-3 md:p-4 rounded-lg border shadow-sm">
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <p className="text-xs md:text-sm font-medium text-slate-600">{label}</p>
         {strategy !== "neutral" ? (
           <AssessmentBadge level={level} labels={badgeLabels} />
         ) : (
-          <span className="px-3 py-1 rounded-full text-sm font-medium bg-slate-100 text-slate-600 border border-slate-200">
+          <span className="px-2 py-0.5 md:px-3 md:py-1 rounded-full text-xs md:text-sm font-medium bg-slate-100 text-slate-600 border border-slate-200 whitespace-nowrap">
             Info
           </span>
         )}
       </div>
-      <p className="text-2xl font-bold text-slate-800">{formattedValue}</p>
-      <p className="text-sm text-slate-500 mt-1">
+      <p className="text-xl md:text-2xl font-bold text-slate-800">{formattedValue}</p>
+      <p className="text-xs md:text-sm text-slate-500 mt-1">
         {comparisonLabel} median: {formatMedian(distribution.median)}
       </p>
       <PercentileBar percentile={percentile} level={level} />
@@ -482,13 +482,13 @@ function ComparePageContent() {
 
             {/* Comparison Level Toggle */}
             <section className="bg-white rounded-lg shadow-sm border p-4 mb-6">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-sm font-medium text-slate-600 mr-2">Compare against:</span>
+              <p className="text-sm font-medium text-slate-600 mb-3">Compare against:</p>
+              <div className="grid grid-cols-4 gap-2">
                 {(["pcn", "icb", "region", "national"] as ComparisonLevel[]).map((level) => (
                   <button
                     key={level}
                     onClick={() => setComparisonLevel(level)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    className={`px-2 py-2 rounded-lg text-xs md:text-sm font-medium transition-colors ${
                       comparisonLevel === level
                         ? "bg-teal-600 text-white"
                         : "bg-slate-100 text-slate-600 hover:bg-slate-200"
@@ -498,15 +498,15 @@ function ComparePageContent() {
                   </button>
                 ))}
               </div>
-              <p className="text-sm text-slate-500 mt-2">
+              <p className="text-xs md:text-sm text-slate-500 mt-3">
                 Comparing against {currentAggregate.practiceCount.toLocaleString()} practices in {comparisonLabels[comparisonLevel]}
               </p>
             </section>
 
             {/* Key Metrics Grid */}
             <section className="mb-6">
-              <h2 className="text-xl font-semibold text-slate-800 mb-4">Key Metrics</h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <h2 className="text-lg md:text-xl font-semibold text-slate-800 mb-4">Key Metrics</h2>
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                 <MetricCard
                   label="List Size"
                   value={selectedPractice.listSize}
@@ -561,37 +561,37 @@ function ComparePageContent() {
             </section>
 
             {/* Income Estimate Breakdown */}
-            <section className="bg-teal-50 border border-teal-200 rounded-lg p-6 mb-6">
-              <h2 className="text-xl font-semibold text-teal-900 mb-3">Income Estimate Breakdown</h2>
-              <p className="text-teal-700 mb-4">
-                Based on list size of {formatNumber(selectedPractice.listSize)} patients and {formatNumber(selectedPractice.qofPoints)} QOF points:
+            <section className="bg-teal-50 border border-teal-200 rounded-lg p-4 md:p-6 mb-6">
+              <h2 className="text-lg md:text-xl font-semibold text-teal-900 mb-2 md:mb-3">Income Estimate</h2>
+              <p className="text-sm md:text-base text-teal-700 mb-4">
+                Based on {formatNumber(selectedPractice.listSize)} patients and {formatNumber(selectedPractice.qofPoints)} QOF points:
               </p>
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="bg-white rounded-lg p-4">
-                  <p className="text-sm text-slate-500">Global Sum</p>
-                  <p className="text-xl font-bold text-slate-800">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                <div className="bg-white rounded-lg p-3 md:p-4">
+                  <p className="text-xs md:text-sm text-slate-500">Global Sum</p>
+                  <p className="text-lg md:text-xl font-bold text-slate-800">
                     {formatCurrency(selectedPractice.listSize * NHS_RATES.globalSumPerPatient)}
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">
+                  <p className="text-xs text-slate-400 mt-1 hidden md:block">
                     {formatCurrency(NHS_RATES.globalSumPerPatient)} per patient
                   </p>
                 </div>
-                <div className="bg-white rounded-lg p-4">
-                  <p className="text-sm text-slate-500">QOF</p>
-                  <p className="text-xl font-bold text-slate-800">
+                <div className="bg-white rounded-lg p-3 md:p-4">
+                  <p className="text-xs md:text-sm text-slate-500">QOF</p>
+                  <p className="text-lg md:text-xl font-bold text-slate-800">
                     {formatCurrency(selectedPractice.qofPoints * NHS_RATES.qofPointValue)}
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">
-                    {formatNumber(selectedPractice.qofPoints)} points at {formatCurrency(NHS_RATES.qofPointValue)}/point
+                  <p className="text-xs text-slate-400 mt-1 hidden md:block">
+                    {formatNumber(selectedPractice.qofPoints)} pts × {formatCurrency(NHS_RATES.qofPointValue)}
                   </p>
                 </div>
-                <div className="bg-white rounded-lg p-4">
-                  <p className="text-sm text-slate-500">Enhanced Services (est.)</p>
-                  <p className="text-xl font-bold text-slate-800">
+                <div className="bg-white rounded-lg p-3 md:p-4 col-span-2 md:col-span-1">
+                  <p className="text-xs md:text-sm text-slate-500">Enhanced Services (est.)</p>
+                  <p className="text-lg md:text-xl font-bold text-slate-800">
                     {formatCurrency(selectedPractice.listSize * NHS_RATES.typicalEnhancedServicesPerPatient)}
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Typical at {formatCurrency(NHS_RATES.typicalEnhancedServicesPerPatient)}/patient
+                  <p className="text-xs text-slate-400 mt-1 hidden md:block">
+                    {formatCurrency(NHS_RATES.typicalEnhancedServicesPerPatient)}/patient typical
                   </p>
                 </div>
               </div>
@@ -601,60 +601,56 @@ function ComparePageContent() {
             </section>
 
             {/* Workforce Breakdown */}
-            <section className="bg-white rounded-lg shadow-sm border p-6 mb-6">
-              <h2 className="text-xl font-semibold text-slate-800 mb-4">Workforce Breakdown</h2>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left">
+            <section className="bg-white rounded-lg shadow-sm border p-4 md:p-6 mb-6">
+              <h2 className="text-lg md:text-xl font-semibold text-slate-800 mb-4">Workforce Breakdown</h2>
+              <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+                <table className="w-full text-left min-w-[320px]">
                   <thead>
                     <tr className="border-b">
-                      <th className="pb-3 text-sm font-medium text-slate-600">Role</th>
-                      <th className="pb-3 text-sm font-medium text-slate-600 text-right">Your WTE</th>
-                      <th className="pb-3 text-sm font-medium text-slate-600 text-right">{comparisonLabels[comparisonLevel]} Median</th>
-                      <th className="pb-3 text-sm font-medium text-slate-600 text-right">National Median</th>
+                      <th className="pb-3 text-xs md:text-sm font-medium text-slate-600">Role</th>
+                      <th className="pb-3 text-xs md:text-sm font-medium text-slate-600 text-right">You</th>
+                      <th className="pb-3 text-xs md:text-sm font-medium text-slate-600 text-right hidden sm:table-cell">{comparisonLabels[comparisonLevel]}</th>
+                      <th className="pb-3 text-xs md:text-sm font-medium text-slate-600 text-right">National</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="text-sm md:text-base">
                     <tr className="border-b">
-                      <td className="py-3 text-slate-800">
+                      <td className="py-2 md:py-3 text-slate-800">
                         GPs
                         {useCustomWte && (
-                          <span className="text-xs text-amber-600 ml-1">(adjusted)</span>
+                          <span className="text-xs text-amber-600 ml-1">*</span>
                         )}
                       </td>
-                      <td className="py-3 text-right font-medium">
+                      <td className="py-2 md:py-3 text-right font-medium">
                         {formatWTE(effectiveWteGPs)}
-                        {useCustomWte && (
-                          <span className="text-xs text-slate-400 block">
-                            NHS: {formatWTE(selectedPractice.wteGPs)}
-                          </span>
-                        )}
                       </td>
-                      <td className="py-3 text-right text-slate-600">{formatWTE(currentAggregate.metrics.wteGPs.median)}</td>
-                      <td className="py-3 text-right text-slate-600">{formatWTE(data.aggregates.national.metrics.wteGPs.median)}</td>
+                      <td className="py-2 md:py-3 text-right text-slate-600 hidden sm:table-cell">{formatWTE(currentAggregate.metrics.wteGPs.median)}</td>
+                      <td className="py-2 md:py-3 text-right text-slate-600">{formatWTE(data.aggregates.national.metrics.wteGPs.median)}</td>
                     </tr>
                     <tr className="border-b">
-                      <td className="py-3 text-slate-800">Nurses</td>
-                      <td className="py-3 text-right font-medium">{formatWTE(selectedPractice.wteNurses)}</td>
-                      <td className="py-3 text-right text-slate-600">{formatWTE(currentAggregate.metrics.wteNurses.median)}</td>
-                      <td className="py-3 text-right text-slate-600">{formatWTE(data.aggregates.national.metrics.wteNurses.median)}</td>
+                      <td className="py-2 md:py-3 text-slate-800">Nurses</td>
+                      <td className="py-2 md:py-3 text-right font-medium">{formatWTE(selectedPractice.wteNurses)}</td>
+                      <td className="py-2 md:py-3 text-right text-slate-600 hidden sm:table-cell">{formatWTE(currentAggregate.metrics.wteNurses.median)}</td>
+                      <td className="py-2 md:py-3 text-right text-slate-600">{formatWTE(data.aggregates.national.metrics.wteNurses.median)}</td>
                     </tr>
                     <tr className="border-b">
-                      <td className="py-3 text-slate-800">Admin Staff</td>
-                      <td className="py-3 text-right font-medium">{formatWTE(selectedPractice.wteAdmin)}</td>
-                      <td className="py-3 text-right text-slate-600">-</td>
-                      <td className="py-3 text-right text-slate-600">-</td>
+                      <td className="py-2 md:py-3 text-slate-800">Admin</td>
+                      <td className="py-2 md:py-3 text-right font-medium">{formatWTE(selectedPractice.wteAdmin)}</td>
+                      <td className="py-2 md:py-3 text-right text-slate-600 hidden sm:table-cell">-</td>
+                      <td className="py-2 md:py-3 text-right text-slate-600">-</td>
                     </tr>
                     <tr>
-                      <td className="py-3 text-slate-800">Direct Patient Care</td>
-                      <td className="py-3 text-right font-medium">{formatWTE(selectedPractice.wteDPC)}</td>
-                      <td className="py-3 text-right text-slate-600">-</td>
-                      <td className="py-3 text-right text-slate-600">-</td>
+                      <td className="py-2 md:py-3 text-slate-800">DPC</td>
+                      <td className="py-2 md:py-3 text-right font-medium">{formatWTE(selectedPractice.wteDPC)}</td>
+                      <td className="py-2 md:py-3 text-right text-slate-600 hidden sm:table-cell">-</td>
+                      <td className="py-2 md:py-3 text-right text-slate-600">-</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <p className="text-sm text-slate-500 mt-3">
-                Direct Patient Care includes pharmacists, physiotherapists, and other clinical staff.
+              <p className="text-xs md:text-sm text-slate-500 mt-3">
+                DPC = Direct Patient Care (pharmacists, physios, etc.)
+                {useCustomWte && <span className="block mt-1">* Using your adjusted WTE figure</span>}
               </p>
             </section>
           </>
