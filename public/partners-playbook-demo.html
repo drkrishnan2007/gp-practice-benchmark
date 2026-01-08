@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner's Playbook Demo | Business Guidance for GP Partners</title>
+    <style>
+        :root {
+            --primary: #4A9B9B;
+            --primary-dark: #3D8282;
+            --secondary: #475569;
+            --background: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --accent: #1E40AF;
+            --accent-light: #EFF6FF;
+            --accent-dark: #1E3A8A;
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --border: #E5E7EB;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --alert: #EF4444;
+            --demo-banner: #7C3AED;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            text-decoration: none;
+        }
+
+        .skip-link:focus { top: 0; }
+
+        /* Demo Banner */
+        .demo-banner {
+            background: linear-gradient(135deg, var(--demo-banner) 0%, #5B21B6 100%);
+            color: white;
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-banner strong { font-weight: 600; }
+
+        .demo-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 8px;
+        }
+
+        .demo-banner .back-link {
+            text-decoration: none;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .demo-banner {
+                flex-direction: column;
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            .demo-banner .back-link {
+                margin-right: 0;
+                margin-bottom: 4px;
+            }
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        header .tagline {
+            font-size: 1.125rem;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        .demo-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            width: 100%;
+        }
+
+        .intro {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .intro p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .topic-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 480px) {
+            .topic-grid { grid-template-columns: 1fr; }
+        }
+
+        .topic-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.75rem;
+        }
+
+        .topic-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(74, 155, 155, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .topic-card:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .topic-card.selected {
+            border-color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .topic-card .icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .topic-card.selected .icon {
+            background: var(--accent);
+            color: white;
+        }
+
+        .topic-card .label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        /* Scenario Cards */
+        .scenario-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .scenario-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .scenario-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .scenario-card:hover {
+            border-color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .scenario-card:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .scenario-card.selected {
+            border-color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .scenario-topic {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .scenario-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .scenario-preview {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover { background: var(--accent-dark); }
+        .btn-primary:disabled { background: var(--text-secondary); cursor: not-allowed; }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-secondary:hover { background: var(--accent-light); }
+
+        .btn-teal {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-teal:hover { background: var(--primary-dark); }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .loading.active { display: flex; }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Output Section */
+        .output-section {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .output-section.active { display: block; }
+
+        .output-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .output-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .output-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .output-content { padding: 1.5rem; }
+
+        .output-content h3 {
+            color: var(--accent);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-light);
+        }
+
+        .output-content h3:first-child { margin-top: 0; }
+        .output-content p { margin-bottom: 1rem; color: var(--text-primary); }
+        .output-content ul, .output-content ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+        .output-content li { margin-bottom: 0.5rem; color: var(--text-primary); }
+        .output-content strong { color: var(--text-primary); }
+
+        .output-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            background: var(--background);
+        }
+
+        /* Follow-up Section */
+        .followup-section {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .followup-section.active { display: block; }
+
+        .followup-section label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .followup-section .hint {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .followup-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .followup-chip {
+            padding: 8px 16px;
+            background: var(--accent-light);
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .followup-chip:hover:not(:disabled) {
+            background: var(--accent);
+            color: white;
+        }
+
+        .followup-chip:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--demo-banner) 0%, #5B21B6 100%);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .cta-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .cta-section p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 16px;
+        }
+
+        .cta-section .btn {
+            background: white;
+            color: var(--demo-banner);
+        }
+
+        .cta-section .btn:hover {
+            background: #f3f4f6;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        footer .brand {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        footer .disclaimer {
+            font-size: 0.875rem;
+            opacity: 0.85;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 480px) {
+            header h1 { font-size: 1.75rem; }
+            .btn { width: 100%; justify-content: center; }
+            .button-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="demo-banner">
+        <a href="/" class="back-link">← Back to Pro</a>
+        <span><strong>Demo Mode</strong> — Explore 5 example scenarios</span>
+    </div>
+
+    <header>
+        <h1>Partner's Playbook</h1>
+        <p class="tagline">Business guidance for GP partners</p>
+        <span class="demo-badge">Interactive Demo</span>
+    </header>
+
+    <main id="main-content">
+        <section class="intro" aria-label="Introduction">
+            <p>Running a general practice means wearing many hats beyond clinical care. This tool provides practical guidance on HR, finance, regulatory compliance, partnership dynamics, and strategic decisions — helping you navigate the business side of practice with confidence.</p>
+        </section>
+
+        <!-- Input Section -->
+        <section class="scenario-section" id="input-section" aria-label="Topic selection">
+            <h2 class="section-title">Select a scenario to explore</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">See how Partner's Playbook helps GP partners navigate complex business situations.</p>
+
+            <div class="scenario-list" role="radiogroup" aria-label="Demo scenarios">
+                <button class="scenario-card" role="radio" aria-checked="false" data-scenario="0" tabindex="0">
+                    <div class="scenario-topic">Partnership Issues</div>
+                    <div class="scenario-title">Partner wanting to leave the practice</div>
+                    <div class="scenario-preview">One of our partners has indicated they want to leave. What's the process and what should we consider?</div>
+                </button>
+
+                <button class="scenario-card" role="radio" aria-checked="false" data-scenario="1" tabindex="-1">
+                    <div class="scenario-topic">Partnership Issues</div>
+                    <div class="scenario-title">Partnership agreement dispute</div>
+                    <div class="scenario-preview">We have a disagreement about interpreting our partnership agreement regarding profit shares...</div>
+                </button>
+
+                <button class="scenario-card" role="radio" aria-checked="false" data-scenario="2" tabindex="-1">
+                    <div class="scenario-topic">Strategic Decisions</div>
+                    <div class="scenario-title">Practice merger considerations</div>
+                    <div class="scenario-preview">We've been approached about merging with a neighbouring practice. What due diligence should we do?</div>
+                </button>
+
+                <button class="scenario-card" role="radio" aria-checked="false" data-scenario="3" tabindex="-1">
+                    <div class="scenario-topic">Finance & Business</div>
+                    <div class="scenario-title">Managing partner drawings and expectations</div>
+                    <div class="scenario-preview">Partners have different views on monthly drawings vs year-end distribution. How do we approach this?</div>
+                </button>
+
+                <button class="scenario-card" role="radio" aria-checked="false" data-scenario="4" tabindex="-1">
+                    <div class="scenario-topic">Finance & Business</div>
+                    <div class="scenario-title">Seniority payments explained</div>
+                    <div class="scenario-preview">I'm a new partner and confused about seniority payments. How does the system work?</div>
+                </button>
+            </div>
+
+            <div class="button-row">
+                <button class="btn btn-primary" id="get-guidance-btn" disabled>Get Guidance</button>
+            </div>
+        </section>
+
+        <!-- Loading -->
+        <div class="loading" id="loading" aria-live="polite">
+            <div class="spinner" aria-hidden="true"></div>
+            <span>Analysing your situation and preparing guidance...</span>
+        </div>
+
+        <!-- Output Section -->
+        <section class="output-section" id="output-section" aria-label="Guidance output">
+            <div class="output-header">
+                <h2 id="output-title">Your Guidance</h2>
+                <div class="output-meta">
+                    <span id="output-topic"></span>
+                </div>
+            </div>
+            <div class="output-content" id="output-content"></div>
+            <div class="output-actions">
+                <button class="btn btn-secondary btn-sm" id="copy-btn">📋 Copy</button>
+                <button class="btn btn-secondary btn-sm" id="print-btn">🖨️ Print</button>
+            </div>
+        </section>
+
+        <!-- Follow-up Section -->
+        <section class="followup-section" id="followup-section" aria-label="Follow-up options">
+            <label>Explore further</label>
+            <p class="hint">Click to see a follow-up response on this topic.</p>
+            <div class="followup-options">
+                <button class="followup-chip" id="followup-btn">Tell me more about this</button>
+                <button class="btn btn-secondary btn-sm" id="back-btn">← Back to scenarios</button>
+            </div>
+        </section>
+
+        <!-- Brand Section -->
+        <div class="cta-section" id="cta-section" style="display: none;">
+            <p style="margin: 0;">Built by Aryash Health for GP practices</p>
+        </div>
+    </main>
+
+    <footer>
+        <p class="brand">Built by Aryash Health</p>
+        <p class="disclaimer">This tool provides general management guidance and does not constitute legal, financial, or professional advice. For significant decisions, consult your LMC, accountant, or medical defence organisation.</p>
+    </footer>
+
+    <script>
+        // Demo Scenarios Data
+        const SCENARIOS = [
+            {
+                topic: "Partnership Issues",
+                title: "Partner Exit Process",
+                situation: "One of our partners has indicated they want to leave the practice. What's the process and what should we consider?",
+                response: `<h3>Understanding Your Situation</h3>
+<p>A partner leaving is one of the most significant events in practice life. It affects finances, workload, and team dynamics. The good news is that with proper planning, it can be managed smoothly.</p>
+
+<h3>Key Considerations</h3>
+<ul>
+<li><strong>Notice period</strong> — Check your partnership agreement for the required notice (typically 6-12 months). This is legally binding.</li>
+<li><strong>Reason for leaving</strong> — Retirement, relocation, joining another practice, or leaving general practice entirely will affect the process differently.</li>
+<li><strong>Financial settlement</strong> — The departing partner will be owed their share of partnership assets, including property equity, retained profits, and any loans to the practice.</li>
+<li><strong>Patient list</strong> — Consider how list size might be affected if patients choose to follow the departing partner.</li>
+<li><strong>Goodwill</strong> — While goodwill payments for NHS patients are banned, private work goodwill may still apply.</li>
+</ul>
+
+<h3>Recommended Approach</h3>
+<ol>
+<li><strong>Review your partnership agreement</strong> — This governs the exit process. If it's silent on key issues, you'll need to negotiate.</li>
+<li><strong>Get a current valuation</strong> — Commission an accountant to value partnership assets, including property, equipment, and any business interests.</li>
+<li><strong>Agree a timeline</strong> — Work backwards from the intended leaving date to ensure all steps are completed.</li>
+<li><strong>Decide on replacement</strong> — Will you recruit a new partner, convert to salaried GP, or redistribute sessions among existing partners?</li>
+<li><strong>Communicate with staff</strong> — Once plans are confirmed, brief the team to prevent rumours and uncertainty.</li>
+</ol>
+
+<h3>Watch Out For</h3>
+<ul>
+<li><strong>Restrictive covenants</strong> — Your agreement may prevent the departing partner from practicing within a certain radius. Ensure these are enforceable.</li>
+<li><strong>Tax implications</strong> — Significant tax events can occur on partner exit. Get specialist advice.</li>
+<li><strong>Ongoing liabilities</strong> — The departing partner may remain liable for partnership debts incurred during their tenure.</li>
+<li><strong>CQC notification</strong> — You must notify CQC of changes to the partnership.</li>
+</ul>
+
+<h3>When to Seek Professional Help</h3>
+<p>This is a situation where professional advice is essential:</p>
+<ul>
+<li><strong>Accountant</strong> — For valuation and tax advice</li>
+<li><strong>Solicitor</strong> — For reviewing/drafting exit agreements</li>
+<li><strong>LMC</strong> — For guidance on contractual implications</li>
+</ul>`,
+                followUp: `<h3>More Detail on Partner Exit</h3>
+
+<h3>The Valuation Process</h3>
+<p>A proper partnership valuation typically includes:</p>
+<ul>
+<li><strong>Property</strong> — Current market value of any owned premises, less outstanding mortgage</li>
+<li><strong>Equipment and fixtures</strong> — Usually at written-down book value</li>
+<li><strong>Cash at bank</strong> — Including any reserves held</li>
+<li><strong>Debtors</strong> — Money owed to the practice (e.g., outstanding QOF payments)</li>
+<li><strong>Creditors</strong> — Money the practice owes (reduces the value)</li>
+<li><strong>Work in progress</strong> — Particularly relevant if you have private work</li>
+</ul>
+
+<h3>Payment Options</h3>
+<p>The partnership doesn't always need to pay out immediately:</p>
+<ul>
+<li><strong>Lump sum</strong> — Full payment on exit date</li>
+<li><strong>Instalments</strong> — Spread payments over 12-36 months (interest may apply)</li>
+<li><strong>New partner buy-in</strong> — Incoming partner's contribution funds the outgoing partner's settlement</li>
+<li><strong>Property retention</strong> — Departing partner retains property share and receives rent</li>
+</ul>
+
+<h3>Common Disputes</h3>
+<p>Exit negotiations often become difficult around:</p>
+<ul>
+<li>Valuation methodology (especially property)</li>
+<li>Timing of payments</li>
+<li>Treatment of ongoing contracts (e.g., ARRS staff)</li>
+<li>Restrictive covenant enforcement</li>
+</ul>
+
+<h3>Practical Tips</h3>
+<ul>
+<li>Document everything in writing</li>
+<li>Keep discussions professional, not personal</li>
+<li>Consider mediation if negotiations stall</li>
+<li>Update your partnership agreement for future exits based on lessons learned</li>
+</ul>`
+            },
+            {
+                topic: "Partnership Issues",
+                title: "Partnership Agreement Disputes",
+                situation: "We have a disagreement about interpreting our partnership agreement regarding profit shares. How should we approach this?",
+                response: `<h3>Understanding Your Situation</h3>
+<p>Partnership agreement disputes are common and can be deeply uncomfortable because they involve colleagues you work closely with. The key is to resolve them professionally before they damage relationships irreparably.</p>
+
+<h3>Key Considerations</h3>
+<ul>
+<li><strong>The agreement is a contract</strong> — Its wording governs the dispute, regardless of what anyone believes was "intended."</li>
+<li><strong>Ambiguity happens</strong> — Agreements written years ago may not address current situations clearly.</li>
+<li><strong>Custom and practice</strong> — How things have been done historically can sometimes inform interpretation.</li>
+<li><strong>Relationships matter</strong> — Even if you're legally right, winning a dispute badly can poison the partnership.</li>
+</ul>
+
+<h3>Recommended Approach</h3>
+<ol>
+<li><strong>Start with the text</strong> — Read the relevant clauses carefully. What does it actually say, word for word?</li>
+<li><strong>Check for definitions</strong> — Many agreements define key terms (like "profits") specifically.</li>
+<li><strong>Review historical practice</strong> — How has this been handled before? Consistent past practice can inform interpretation.</li>
+<li><strong>Seek objective input</strong> — Your accountant or LMC can offer an impartial view.</li>
+<li><strong>Have a structured discussion</strong> — Meet specifically to discuss the issue, not as an add-on to other business.</li>
+<li><strong>Document the outcome</strong> — Whatever you agree, put it in writing to prevent future disputes.</li>
+</ol>
+
+<h3>Watch Out For</h3>
+<ul>
+<li><strong>Entrenched positions</strong> — Once people feel personally attacked, compromise becomes harder.</li>
+<li><strong>Mixing issues</strong> — Don't let this dispute become a vehicle for other grievances.</li>
+<li><strong>Unilateral action</strong> — Don't change profit distributions without agreement.</li>
+<li><strong>Delay</strong> — Unresolved disputes fester. Address them promptly.</li>
+</ul>
+
+<h3>When to Seek Professional Help</h3>
+<ul>
+<li><strong>LMC</strong> — Can often provide informal mediation</li>
+<li><strong>Accountant</strong> — If the dispute involves financial calculations</li>
+<li><strong>Solicitor</strong> — If you can't resolve it internally and need formal interpretation</li>
+<li><strong>Mediator</strong> — A neutral third party can help find compromise</li>
+</ul>
+
+<h3>Useful Resources</h3>
+<ul>
+<li>Your original partnership agreement and any amendments</li>
+<li>BMA model partnership agreement (for comparison)</li>
+<li>LMC partnership support services</li>
+</ul>`,
+                followUp: `<h3>Resolving the Dispute</h3>
+
+<h3>If You Can't Agree</h3>
+<p>When internal discussions fail, you have several escalation options:</p>
+<ul>
+<li><strong>Informal mediation</strong> — A trusted colleague, your accountant, or LMC officer facilitates discussion</li>
+<li><strong>Formal mediation</strong> — Professional mediators specialising in partnership disputes</li>
+<li><strong>Expert determination</strong> — An accountant or lawyer gives a binding interpretation</li>
+<li><strong>Arbitration</strong> — A formal process, often specified in partnership agreements</li>
+<li><strong>Litigation</strong> — Court action (expensive, slow, and relationship-destroying — last resort)</li>
+</ul>
+
+<h3>Preventing Future Disputes</h3>
+<p>Use this experience to improve your agreement:</p>
+<ul>
+<li><strong>Annual review</strong> — Schedule yearly partnership agreement reviews</li>
+<li><strong>Clear definitions</strong> — Define key terms precisely (profits, sessions, drawings, etc.)</li>
+<li><strong>Worked examples</strong> — Include numerical examples for complex profit-sharing formulas</li>
+<li><strong>Dispute resolution clause</strong> — Specify how disputes will be handled</li>
+<li><strong>Regular partnership meetings</strong> — Address issues before they become disputes</li>
+</ul>
+
+<h3>The BMA Model Agreement</h3>
+<p>If your current agreement is causing problems, consider adopting the BMA model partnership agreement. It's regularly updated, legally reviewed, and addresses most common scenarios. Your LMC can provide a copy.</p>`
+            },
+            {
+                topic: "Strategic Decisions",
+                title: "Practice Merger Due Diligence",
+                situation: "We've been approached about merging with a neighbouring practice. What due diligence should we do?",
+                response: `<h3>Understanding Your Situation</h3>
+<p>Practice mergers can be transformative — for better or worse. Thorough due diligence protects you from inheriting hidden problems and helps you make an informed decision.</p>
+
+<h3>Key Considerations</h3>
+<ul>
+<li><strong>Why are they approaching you?</strong> — Understand their motivation. Are they struggling, or seeking strategic growth?</li>
+<li><strong>Cultural fit</strong> — Different practices have different cultures. Incompatible cultures doom mergers.</li>
+<li><strong>Financial health</strong> — You need to see their books before committing to anything.</li>
+<li><strong>Legal structure</strong> — How will the merged entity be structured? New partnership? Contract novation?</li>
+<li><strong>Staff implications</strong> — TUPE transfers, redundancies, and harmonisation of terms.</li>
+</ul>
+
+<h3>Due Diligence Checklist</h3>
+
+<strong>Financial</strong>
+<ul>
+<li>Last 3 years' accounts (audited if available)</li>
+<li>Current year management accounts</li>
+<li>Partner drawings history</li>
+<li>Outstanding debts and liabilities</li>
+<li>Contract income breakdown (GMS/PMS, QOF, enhanced services, PCN)</li>
+<li>Property ownership/lease arrangements</li>
+</ul>
+
+<strong>Clinical</strong>
+<ul>
+<li>List size and demographics</li>
+<li>QOF achievement and trajectory</li>
+<li>CQC rating and any conditions</li>
+<li>Significant events and complaints history</li>
+<li>Patient survey results</li>
+</ul>
+
+<strong>Operational</strong>
+<ul>
+<li>Staff list with terms and conditions</li>
+<li>Employment contracts and policies</li>
+<li>IT systems and clinical software</li>
+<li>Premises condition survey</li>
+<li>Equipment inventory</li>
+</ul>
+
+<strong>Legal</strong>
+<ul>
+<li>Current GMS/PMS contract</li>
+<li>Partnership agreement</li>
+<li>Property leases or ownership documents</li>
+<li>Outstanding litigation or claims</li>
+<li>CQC registration details</li>
+</ul>
+
+<h3>Watch Out For</h3>
+<ul>
+<li><strong>Hidden liabilities</strong> — NHS pension debts, outstanding claims, staff disputes</li>
+<li><strong>Property problems</strong> — Unfavourable lease terms, needed repairs, boundary disputes</li>
+<li><strong>Staff costs</strong> — Higher salaries or benefits than your practice may need harmonising</li>
+<li><strong>Cultural red flags</strong> — High staff turnover, poor CQC history, partner disputes</li>
+</ul>
+
+<h3>When to Seek Professional Help</h3>
+<ul>
+<li><strong>Accountant</strong> — Financial due diligence and tax implications</li>
+<li><strong>Solicitor</strong> — Contract review and merger structuring</li>
+<li><strong>LMC</strong> — Contract novation process and ICB engagement</li>
+<li><strong>Surveyor</strong> — Property condition if applicable</li>
+</ul>`,
+                followUp: `<h3>Making the Merger Work</h3>
+
+<h3>Merger Structures</h3>
+<p>There are several ways to structure a merger:</p>
+<ul>
+<li><strong>Full merger</strong> — Both practices dissolve, new partnership formed</li>
+<li><strong>Absorption</strong> — One practice takes over the other's contract</li>
+<li><strong>Super-partnership</strong> — Practices remain separate legal entities but share management</li>
+<li><strong>Federation model</strong> — Formal collaboration without full merger</li>
+</ul>
+
+<h3>Critical Success Factors</h3>
+<ul>
+<li><strong>Clear vision</strong> — Why are you merging? What do you want to achieve?</li>
+<li><strong>Equal voice</strong> — Mergers feel like takeovers when one side dominates</li>
+<li><strong>Integration plan</strong> — Don't just merge on paper; actively integrate systems and culture</li>
+<li><strong>Communication</strong> — Keep staff and patients informed throughout</li>
+<li><strong>Quick wins</strong> — Identify early benefits to build momentum</li>
+</ul>
+
+<h3>Timeline</h3>
+<p>A typical merger process takes 6-12 months:</p>
+<ul>
+<li>Months 1-2: Initial discussions and confidentiality agreement</li>
+<li>Months 2-4: Due diligence</li>
+<li>Months 4-6: Negotiation and legal structuring</li>
+<li>Months 6-8: ICB approval and contract variation</li>
+<li>Months 8-12: Integration and go-live</li>
+</ul>
+
+<h3>When to Walk Away</h3>
+<p>Not all mergers should proceed. Consider walking away if:</p>
+<ul>
+<li>Due diligence reveals significant hidden problems</li>
+<li>Cultural differences are fundamental</li>
+<li>The financial terms aren't fair</li>
+<li>Key partners from either side are uncomfortable</li>
+<li>The ICB is unsupportive</li>
+</ul>`
+            },
+            {
+                topic: "Finance & Business",
+                title: "Partner Drawings Management",
+                situation: "Partners have different views on monthly drawings vs year-end distribution. How do we approach this?",
+                response: `<h3>Understanding Your Situation</h3>
+<p>Drawings policy is one of the most common sources of partner disagreement. Different partners have different financial needs and risk appetites, and your policy needs to balance these.</p>
+
+<h3>Key Considerations</h3>
+<ul>
+<li><strong>Cash flow</strong> — The practice needs to maintain sufficient cash to operate, pay bills, and handle unexpected expenses.</li>
+<li><strong>Tax timing</strong> — Partners pay tax on profits, not drawings. High drawings don't reduce tax bills.</li>
+<li><strong>Personal circumstances</strong> — Partners with mortgages need predictable income; those near retirement may want to build up capital.</li>
+<li><strong>Risk management</strong> — Conservative drawings protect against income fluctuations.</li>
+<li><strong>Fairness</strong> — If profit shares are unequal, drawings should reflect this.</li>
+</ul>
+
+<h3>Recommended Approach</h3>
+<ol>
+<li><strong>Agree a minimum reserve</strong> — Typically 2-3 months' operating costs should remain in the practice account.</li>
+<li><strong>Set monthly drawings as % of expected profit</strong> — Commonly 70-80% of anticipated profit share, paid monthly.</li>
+<li><strong>Quarterly true-up</strong> — Review actual vs expected profit quarterly and adjust drawings if needed.</li>
+<li><strong>Year-end distribution</strong> — Remaining profits distributed after accounts are finalised (and tax provisions made).</li>
+<li><strong>Document the policy</strong> — Include in your partnership agreement to prevent future disputes.</li>
+</ol>
+
+<h3>Common Approaches</h3>
+<ul>
+<li><strong>Conservative</strong> — Lower monthly drawings (60-70%), larger year-end pot. Lower risk, less predictability.</li>
+<li><strong>Aggressive</strong> — Higher monthly drawings (85-90%), smaller year-end. Higher risk if profits fall short.</li>
+<li><strong>Flexible</strong> — Standard drawings with option to draw more if cash allows. Requires trust and communication.</li>
+</ul>
+
+<h3>Watch Out For</h3>
+<ul>
+<li><strong>Over-drawing</strong> — If drawings exceed actual profits, partners may need to repay the practice.</li>
+<li><strong>Under-drawing</strong> — Leaving too much in the practice can create tax inefficiencies.</li>
+<li><strong>Unequal treatment</strong> — Ensure drawings policy applies consistently to all partners.</li>
+<li><strong>Cash flow crises</strong> — Monitor bank balance monthly; don't assume it's always fine.</li>
+</ul>
+
+<h3>When to Seek Professional Help</h3>
+<ul>
+<li><strong>Accountant</strong> — Can model different scenarios and advise on tax-efficient timing</li>
+<li><strong>LMC</strong> — Can share typical approaches from other practices</li>
+</ul>`,
+                followUp: `<h3>Structuring Your Drawings Policy</h3>
+
+<h3>Sample Drawings Policy</h3>
+<p>Here's an example policy you could adapt:</p>
+<ul>
+<li>Monthly drawings: 75% of anticipated annual profit share, divided by 12</li>
+<li>Minimum practice reserve: £50,000 (or 2 months' operating costs)</li>
+<li>Quarterly review: If actual profits exceed/fall short of forecast by >10%, drawings adjusted</li>
+<li>Year-end distribution: Within 3 months of accounts being finalised</li>
+<li>Tax reserves: Partners responsible for their own tax; recommend 30% of profits set aside</li>
+</ul>
+
+<h3>Handling Disagreements</h3>
+<p>If partners want different things:</p>
+<ul>
+<li><strong>New partner wants higher drawings</strong> — Consider whether their share justifies the cash flow risk</li>
+<li><strong>Senior partner wants lower drawings</strong> — May be appropriate given their larger share</li>
+<li><strong>Compromise</strong> — Some partnerships allow partners to draw at different rates (with appropriate adjustments)</li>
+</ul>
+
+<h3>Practical Tips</h3>
+<ul>
+<li>Use accounting software with cash flow forecasting</li>
+<li>Review practice cash flow at every partner meeting</li>
+<li>Consider a separate partner current account for transparency</li>
+<li>Plan for known large expenses (e.g., property repairs, IT upgrades)</li>
+</ul>
+
+<h3>Tax Efficiency</h3>
+<p>Remember:</p>
+<ul>
+<li>You pay tax on profits, not drawings</li>
+<li>Timing of drawings doesn't affect tax liability</li>
+<li>But good cash management helps pay tax bills when due</li>
+<li>Consider pension contributions as tax-efficient profit extraction</li>
+</ul>`
+            },
+            {
+                topic: "Finance & Business",
+                title: "Seniority Payments Explained",
+                situation: "I'm a new partner and confused about seniority payments. How does the system work?",
+                response: `<h3>Understanding Your Situation</h3>
+<p>Seniority payments are additional payments made to GP partners based on their years of reckonable service. It's a legacy system that rewards experience, and understanding it is important for financial planning.</p>
+
+<h3>How Seniority Payments Work</h3>
+<ul>
+<li><strong>Reckonable service</strong> — Counted from first substantive NHS GP post (after vocational training)</li>
+<li><strong>Annual increments</strong> — Payments increase with each year of service up to a maximum</li>
+<li><strong>Payment levels</strong> — Currently 8 seniority levels over approximately 28 years</li>
+<li><strong>Pro-rata</strong> — Based on your contracted sessions (full-time equivalent)</li>
+<li><strong>GMS/PMS only</strong> — Only available to contractors, not salaried GPs or locums</li>
+</ul>
+
+<h3>Key Points</h3>
+<ul>
+<li><strong>Preserved rights</strong> — If you were a GP contractor before April 2014, you have preserved seniority rights.</li>
+<li><strong>New entrants</strong> — GPs becoming principals after April 2014 do not receive seniority payments (but a global sum increase was made instead).</li>
+<li><strong>Career breaks</strong> — Time out of NHS general practice may not count as reckonable service.</li>
+<li><strong>Part-time</strong> — Payments are pro-rata to contracted sessions.</li>
+</ul>
+
+<h3>Checking Your Entitlement</h3>
+<ol>
+<li>Obtain your reckonable service date from NHS Pensions or your previous employers</li>
+<li>Calculate total years of reckonable service</li>
+<li>Identify your seniority level based on the payment scale</li>
+<li>Check your Global Sum statement to confirm payments are being made</li>
+</ol>
+
+<h3>Watch Out For</h3>
+<ul>
+<li><strong>Incorrect reckonable date</strong> — Errors are common; verify your date is correct</li>
+<li><strong>Missed increments</strong> — Check you move up levels at the right time</li>
+<li><strong>Partnership share</strong> — How seniority payments are shared varies by partnership agreement</li>
+<li><strong>New partners</strong> — If you became a partner after April 2014, you likely have no seniority entitlement</li>
+</ul>
+
+<h3>Seniority in Partnership Accounts</h3>
+<p>Common approaches to handling seniority in profit shares:</p>
+<ul>
+<li><strong>Pooled</strong> — All seniority goes into partnership income and is shared per profit shares</li>
+<li><strong>Individual</strong> — Each partner keeps their own seniority payment</li>
+<li><strong>Hybrid</strong> — Some portion pooled, some individual</li>
+</ul>
+<p>Your partnership agreement should specify which approach you use.</p>
+
+<h3>When to Seek Professional Help</h3>
+<ul>
+<li><strong>NHS Pensions</strong> — For reckonable service queries</li>
+<li><strong>PCSE</strong> — For payment queries</li>
+<li><strong>LMC</strong> — For advice on entitlement</li>
+<li><strong>Accountant</strong> — For partnership accounting treatment</li>
+</ul>`,
+                followUp: `<h3>More on Seniority Payments</h3>
+
+<h3>Historical Context</h3>
+<p>Seniority payments were introduced to reward GP experience and were historically significant (up to £10,000+ per year at maximum). However:</p>
+<ul>
+<li>The system was closed to new entrants from April 2014</li>
+<li>Existing payments were "preserved" for those already receiving them</li>
+<li>The money was added to the global sum instead (benefiting all practices)</li>
+</ul>
+
+<h3>Impact on New Partners</h3>
+<p>If you became a GP principal after April 2014:</p>
+<ul>
+<li>You have no personal seniority entitlement</li>
+<li>The practice still receives global sum (which includes historic seniority funding)</li>
+<li>How this income is shared depends on your partnership agreement</li>
+</ul>
+
+<h3>Partnership Agreement Considerations</h3>
+<p>When joining a partnership, clarify:</p>
+<ul>
+<li>Whether existing partners' seniority is pooled or individual</li>
+<li>How this affects your profit share as a new (non-seniority) partner</li>
+<li>Whether profit shares are adjusted to reflect seniority differences</li>
+</ul>
+
+<h3>Example Scenario</h3>
+<p>A 4-partner practice where 2 senior partners have maximum seniority (£10k each) and 2 new partners have none:</p>
+<ul>
+<li><strong>If pooled:</strong> £20k added to practice income, split 4 ways = £5k each</li>
+<li><strong>If individual:</strong> Senior partners each keep £10k, new partners get nothing</li>
+<li><strong>Difference:</strong> Senior partners effectively £5k better off under individual model</li>
+</ul>
+
+<h3>Tax Treatment</h3>
+<p>Seniority payments are taxable as part of partnership profits. They're not treated specially for tax purposes — they're just part of your total profit share.</p>`
+            }
+        ];
+
+        // State
+        let selectedScenario = null;
+        let showingFollowUp = false;
+
+        // DOM Elements
+        const scenarioCards = document.querySelectorAll('.scenario-card');
+        const getGuidanceBtn = document.getElementById('get-guidance-btn');
+        const inputSection = document.getElementById('input-section');
+        const loading = document.getElementById('loading');
+        const outputSection = document.getElementById('output-section');
+        const outputTitle = document.getElementById('output-title');
+        const outputTopic = document.getElementById('output-topic');
+        const outputContent = document.getElementById('output-content');
+        const followupSection = document.getElementById('followup-section');
+        const followupBtn = document.getElementById('followup-btn');
+        const backBtn = document.getElementById('back-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const printBtn = document.getElementById('print-btn');
+        const ctaSection = document.getElementById('cta-section');
+
+        // Scenario Selection
+        scenarioCards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                scenarioCards.forEach(c => {
+                    c.classList.remove('selected');
+                    c.setAttribute('aria-checked', 'false');
+                    c.setAttribute('tabindex', '-1');
+                });
+                card.classList.add('selected');
+                card.setAttribute('aria-checked', 'true');
+                card.setAttribute('tabindex', '0');
+                selectedScenario = index;
+                getGuidanceBtn.disabled = false;
+            });
+
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.click();
+                }
+            });
+        });
+
+        // Get Guidance Button
+        getGuidanceBtn.addEventListener('click', async () => {
+            if (selectedScenario === null) return;
+
+            // Show loading
+            inputSection.classList.add('hidden');
+            loading.classList.add('active');
+
+            // Simulate loading
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Hide loading, show output
+            loading.classList.remove('active');
+            showOutput();
+        });
+
+        function showOutput() {
+            const scenario = SCENARIOS[selectedScenario];
+            showingFollowUp = false;
+
+            outputTitle.textContent = scenario.title;
+            outputTopic.textContent = scenario.topic;
+            outputContent.innerHTML = scenario.response;
+
+            outputSection.classList.add('active');
+            followupSection.classList.add('active');
+            followupBtn.disabled = false;
+            ctaSection.style.display = 'block';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Follow-up Button
+        followupBtn.addEventListener('click', () => {
+            if (showingFollowUp || selectedScenario === null) return;
+            showingFollowUp = true;
+
+            const scenario = SCENARIOS[selectedScenario];
+            outputContent.innerHTML += scenario.followUp;
+            followupBtn.disabled = true;
+            followupBtn.textContent = '✓ Follow-up shown';
+
+            // Scroll to follow-up content
+            outputContent.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // Back Button
+        backBtn.addEventListener('click', () => {
+            outputSection.classList.remove('active');
+            followupSection.classList.remove('active');
+            inputSection.classList.remove('hidden');
+            ctaSection.style.display = 'none';
+
+            // Reset
+            selectedScenario = null;
+            showingFollowUp = false;
+            getGuidanceBtn.disabled = true;
+            followupBtn.disabled = false;
+            followupBtn.textContent = 'Tell me more about this';
+            scenarioCards.forEach(c => {
+                c.classList.remove('selected');
+                c.setAttribute('aria-checked', 'false');
+            });
+        });
+
+        // Copy Button
+        copyBtn.addEventListener('click', () => {
+            const text = outputContent.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                copyBtn.textContent = '✓ Copied!';
+                setTimeout(() => {
+                    copyBtn.textContent = '📋 Copy';
+                }, 2000);
+            });
+        });
+
+        // Print Button
+        printBtn.addEventListener('click', () => {
+            window.print();
+        });
+    </script>
+</body>
+</html>

@@ -264,45 +264,67 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Coming Soon Section - Slate background */}
+      {/* AI Tools for Practice Leadership - Slate background */}
       <section className="bg-slate-100 py-12 md:py-16">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-slate-800 mb-2">Coming Soon</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-2">AI Tools for Practice Leadership</h2>
           <p className="text-slate-600 mb-6">
-            More tools in development to support GP practice leadership.
+            Explore interactive demos of tools in development to support GP practice leadership.
           </p>
 
           <div className="grid md:grid-cols-3 gap-4">
-            <div className="bg-white/80 rounded-lg border border-slate-200 shadow p-5">
-              <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-3">
-                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
+            <a
+              href="/practice-pulse-demo.html"
+              className="group bg-white rounded-lg border border-slate-200 shadow p-5 hover:shadow-lg hover:border-teal-300 transition-all"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center group-hover:bg-teal-200 transition-colors">
+                  <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+                <span className="px-2 py-0.5 bg-teal-600 text-white text-xs font-medium rounded">Try Demo</span>
               </div>
-              <h3 className="font-semibold text-slate-700 mb-1">Practice Pulse</h3>
+              <h3 className="font-semibold text-slate-800 group-hover:text-teal-700 transition-colors mb-1">Practice Pulse</h3>
               <p className="text-sm text-slate-500">Confidential AI coaching companion for practice staff challenges</p>
-            </div>
+            </a>
 
-            <div className="bg-white/80 rounded-lg border border-slate-200 shadow p-5">
-              <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-3">
-                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+            <a
+              href="/policy-decoder-demo.html"
+              className="group bg-white rounded-lg border border-slate-200 shadow p-5 hover:shadow-lg hover:border-teal-300 transition-all"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center group-hover:bg-teal-200 transition-colors">
+                  <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <span className="px-2 py-0.5 bg-teal-600 text-white text-xs font-medium rounded">Try Demo</span>
               </div>
-              <h3 className="font-semibold text-slate-700 mb-1">Policy Decoder</h3>
+              <h3 className="font-semibold text-slate-800 group-hover:text-teal-700 transition-colors mb-1">Policy Decoder</h3>
               <p className="text-sm text-slate-500">Translates NHS policy documents into plain English summaries</p>
-            </div>
+            </a>
 
-            <div className="bg-white/80 rounded-lg border border-slate-200 shadow p-5">
-              <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-3">
-                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
+            <a
+              href="/partners-playbook-demo.html"
+              className="group bg-white rounded-lg border border-slate-200 shadow p-5 hover:shadow-lg hover:border-teal-300 transition-all"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center group-hover:bg-teal-200 transition-colors">
+                  <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                </div>
+                <span className="px-2 py-0.5 bg-teal-600 text-white text-xs font-medium rounded">Try Demo</span>
               </div>
-              <h3 className="font-semibold text-slate-700 mb-1">Partners Playbook</h3>
+              <h3 className="font-semibold text-slate-800 group-hover:text-teal-700 transition-colors mb-1">Partners Playbook</h3>
               <p className="text-sm text-slate-500">Business guidance for GP partnership decisions</p>
-            </div>
+            </a>
           </div>
+
+          <p className="text-sm text-slate-500 italic mt-6">
+            Click any card above to explore an interactive demo with sample scenarios.
+          </p>
         </div>
       </section>
 

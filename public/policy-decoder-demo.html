@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Decoder Demo | Cut through the complexity</title>
+    <meta name="description" content="Simplify NHS policies and guidance documents for GP practices in England.">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #4A9B9B;
+            --primary-dark: #3D8282;
+            --secondary: #6B7280;
+            --background: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --accent: #F59E0B;
+            --accent-dark: #D97706;
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --border: #E5E7EB;
+            --success: #10B981;
+            --warning: #F97316;
+            --high-priority: #EF4444;
+            --demo-banner: #7C3AED;
+            --radius: 8px;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        html { font-size: 16px; scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            text-decoration: none;
+            border-radius: 0 0 var(--radius) 0;
+        }
+
+        .skip-link:focus { top: 0; }
+
+        /* Demo Banner */
+        .demo-banner {
+            background: linear-gradient(135deg, var(--demo-banner) 0%, #5B21B6 100%);
+            color: white;
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-banner strong { font-weight: 600; }
+
+        .demo-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 8px;
+        }
+
+        .demo-banner .back-link {
+            text-decoration: none;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .demo-banner {
+                flex-direction: column;
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            .demo-banner .back-link {
+                margin-right: 0;
+                margin-bottom: 4px;
+            }
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .demo-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        main {
+            flex: 1;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Scenario Selection */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .scenario-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .scenario-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(74, 155, 155, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .scenario-card:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .scenario-card.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(74, 155, 155, 0.08) 0%, rgba(74, 155, 155, 0.04) 100%);
+        }
+
+        .scenario-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .scenario-source {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .scenario-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .scenario-preview {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .urgency-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .urgency-immediate {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--high-priority);
+        }
+
+        .urgency-soon {
+            background: rgba(249, 115, 22, 0.15);
+            color: var(--warning);
+        }
+
+        .urgency-fyi {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--accent-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-secondary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background-color: var(--background);
+            border-color: var(--secondary);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        /* Loading */
+        .loading-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+
+        .loading-container.visible { display: flex; }
+
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .progress-steps {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            color: var(--secondary);
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .progress-step.completed {
+            color: var(--success);
+        }
+
+        .step-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Output */
+        #output-container {
+            display: none;
+        }
+
+        #output-container.visible {
+            display: block;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .output-header h2 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        .output-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.375rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tag-badge {
+            display: inline-block;
+            font-size: 0.6875rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .tag-badge.source {
+            background-color: rgba(74, 155, 155, 0.15);
+            color: var(--primary);
+        }
+
+        .tag-badge.topic {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: var(--accent-dark);
+        }
+
+        /* Output Content Styling */
+        .output-content {
+            line-height: 1.7;
+        }
+
+        .output-content h3 {
+            color: var(--primary);
+            font-size: 1.125rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .output-content h3:first-child {
+            margin-top: 0;
+        }
+
+        .output-content p {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .output-content ul {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .output-content li {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .output-content strong {
+            color: var(--text-primary);
+        }
+
+        /* Table Styling */
+        .output-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9375rem;
+        }
+
+        .output-content th {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .output-content td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .output-content tr:hover {
+            background-color: var(--background);
+        }
+
+        /* Priority Badges */
+        .priority-high {
+            display: inline-block;
+            background-color: var(--high-priority);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        .priority-medium {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        .priority-low {
+            display: inline-block;
+            background-color: var(--success);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--demo-banner) 0%, #5B21B6 100%);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .cta-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .cta-section p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        .cta-section .btn {
+            background: white;
+            color: var(--demo-banner);
+        }
+
+        .cta-section .btn:hover {
+            background: #f3f4f6;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 640px) {
+            header h1 { font-size: 1.5rem; }
+            .card { padding: 1rem; }
+            .btn { width: 100%; }
+            .btn-group { flex-direction: column; }
+            .scenario-grid { grid-template-columns: 1fr; }
+        }
+
+        @media print {
+            .demo-banner, .btn, #input-section, footer { display: none; }
+            #output-container { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="demo-banner">
+        <a href="/" class="back-link">← Back to Pro</a>
+        <span><strong>Demo Mode</strong> — Explore 5 example policy summaries</span>
+    </div>
+
+    <header>
+        <h1>Policy Decoder</h1>
+        <p>Cut through the complexity</p>
+        <span class="demo-badge">Interactive Demo</span>
+    </header>
+
+    <main id="main-content">
+        <!-- Input Section -->
+        <section class="card" id="input-section">
+            <h2>Select a policy to decode</h2>
+            <p>See how Policy Decoder simplifies complex NHS guidance into clear, actionable summaries for your practice.</p>
+
+            <div class="scenario-grid" role="radiogroup" aria-label="Demo policy documents">
+                <button class="scenario-card" role="radio" aria-checked="false" data-scenario="0" tabindex="0">
+                    <div class="scenario-icon">📊</div>
+                    <div class="scenario-source">NHS England</div>
+                    <div class="scenario-title">QOF 2024/25 Changes</div>
+                    <div class="scenario-preview">Quality and Outcomes Framework updates and new indicators</div>
+                    <span class="urgency-badge urgency-immediate">Action Required</span>
+                </button>
+
+                <button class="scenario-card" role="radio" aria-checked="false" data-scenario="1" tabindex="-1">
+                    <div class="scenario-icon">✅</div>
+                    <div class="scenario-source">CQC</div>
+                    <div class="scenario-title">Inspection Framework 2024</div>
+                    <div class="scenario-preview">Key lines of enquiry and what inspectors look for</div>
+                    <span class="urgency-badge urgency-soon">Review Soon</span>
+                </button>
+
+                <button class="scenario-card" role="radio" aria-checked="false" data-scenario="2" tabindex="-1">
+                    <div class="scenario-icon">👥</div>
+                    <div class="scenario-source">NHS England</div>
+                    <div class="scenario-title">ARRS Guidance Update</div>
+                    <div class="scenario-preview">Additional Roles Reimbursement Scheme rules and funding</div>
+                    <span class="urgency-badge urgency-soon">Review Soon</span>
+                </button>
+
+                <button class="scenario-card" role="radio" aria-checked="false" data-scenario="3" tabindex="-1">
+                    <div class="scenario-icon">🛡️</div>
+                    <div class="scenario-source">ICB / NHS England</div>
+                    <div class="scenario-title">Safeguarding Requirements</div>
+                    <div class="scenario-preview">Level 3 training requirements and compliance</div>
+                    <span class="urgency-badge urgency-immediate">Action Required</span>
+                </button>
+
+                <button class="scenario-card" role="radio" aria-checked="false" data-scenario="4" tabindex="-1">
+                    <div class="scenario-icon">💊</div>
+                    <div class="scenario-source">CQC / NHSE</div>
+                    <div class="scenario-title">Controlled Drugs SOPs</div>
+                    <div class="scenario-preview">Standard operating procedures for CD management</div>
+                    <span class="urgency-badge urgency-fyi">For Reference</span>
+                </button>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" id="decode-btn" disabled>
+                    Decode This Policy
+                </button>
+            </div>
+        </section>
+
+        <!-- Loading -->
+        <div class="card loading-container" id="loading-container">
+            <div class="loading-spinner"></div>
+            <p class="loading-text" id="loading-text">Analysing document...</p>
+            <div class="progress-steps" id="progress-steps">
+                <div class="progress-step" data-step="1">
+                    <span class="step-icon">○</span>
+                    <span>Reading document structure</span>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <span class="step-icon">○</span>
+                    <span>Identifying key requirements</span>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <span class="step-icon">○</span>
+                    <span>Extracting action items</span>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <span class="step-icon">○</span>
+                    <span>Generating summary</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output -->
+        <div id="output-container">
+            <div class="card">
+                <button class="btn btn-outline" id="back-btn" style="margin-bottom: 16px;">
+                    ← Back to policies
+                </button>
+
+                <div class="output-header">
+                    <h2 id="output-title">Policy Summary</h2>
+                </div>
+
+                <div class="output-tags" id="output-tags"></div>
+
+                <div class="output-content" id="output-content"></div>
+
+                <div class="btn-group" style="margin-top: 24px;">
+                    <button class="btn btn-secondary" id="copy-btn">📋 Copy Summary</button>
+                    <button class="btn btn-outline" id="print-btn">🖨️ Print</button>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <p style="margin: 0;">Built by Aryash Health for GP practices</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Built by <a href="https://aryash.health">Aryash Health</a></p>
+        <p style="margin-top: 8px; font-size: 0.8rem;">Policy summaries are for guidance only. Always refer to original documents for definitive requirements.</p>
+    </footer>
+
+    <script>
+        // Demo Scenarios Data
+        const SCENARIOS = [
+            {
+                title: "QOF 2024/25 Changes Summary",
+                source: "NHS England",
+                topic: "QOF",
+                urgency: "immediate",
+                content: `
+<h3>Overview</h3>
+<p>The Quality and Outcomes Framework (QOF) for 2024/25 includes several significant changes affecting GP practices. This summary covers the key updates you need to know and act on.</p>
+
+<h3>Key Changes</h3>
+
+<table>
+<tr>
+<th>Area</th>
+<th>Change</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td><strong>Blood Pressure</strong></td>
+<td>Target tightened from 140/90 to 135/85 for patients under 80</td>
+<td><span class="priority-high">High</span></td>
+</tr>
+<tr>
+<td><strong>Diabetes (HbA1c)</strong></td>
+<td>New indicator for patients achieving HbA1c ≤58 mmol/mol</td>
+<td><span class="priority-high">High</span></td>
+</tr>
+<tr>
+<td><strong>Mental Health</strong></td>
+<td>SMI physical health checks now require lipid profile within 12 months</td>
+<td><span class="priority-medium">Medium</span></td>
+</tr>
+<tr>
+<td><strong>Cancer Referrals</strong></td>
+<td>New indicator tracking 2-week wait referral completion rates</td>
+<td><span class="priority-medium">Medium</span></td>
+</tr>
+<tr>
+<td><strong>Learning Disability</strong></td>
+<td>Annual health check must include specific medication review</td>
+<td><span class="priority-medium">Medium</span></td>
+</tr>
+</table>
+
+<h3>What You Need to Do</h3>
+<ul>
+<li><strong>Review your hypertension register</strong> — identify patients currently between 135/85 and 140/90 who will now be "uncontrolled"</li>
+<li><strong>Update clinical templates</strong> — ensure diabetes reviews include the new HbA1c target prominently</li>
+<li><strong>Brief clinical staff</strong> — particularly on the tightened BP targets before April</li>
+<li><strong>Check SMI recall system</strong> — ensure lipid profiles are being requested at annual reviews</li>
+<li><strong>Audit LD health checks</strong> — verify medication review is documented separately</li>
+</ul>
+
+<h3>Timeline</h3>
+<p>These changes take effect from <strong>1 April 2024</strong>. Practices should aim to have systems updated and staff briefed by mid-March to allow for testing.</p>
+
+<h3>Financial Impact</h3>
+<p>The tightened BP target is estimated to affect 15-20% of currently "controlled" patients. Early intervention to optimise treatment before April will protect QOF income.</p>
+
+<h3>Further Resources</h3>
+<ul>
+<li>Full QOF guidance: <a href="#">NHS England QOF 2024/25</a></li>
+<li>BMA contract guidance: <a href="#">BMA GPC website</a></li>
+</ul>
+`
+            },
+            {
+                title: "CQC Inspection Framework Summary",
+                source: "CQC",
+                topic: "Regulatory",
+                urgency: "soon",
+                content: `
+<h3>Overview</h3>
+<p>The CQC's updated inspection framework for GP practices focuses on five key questions. This summary explains what inspectors actually look for and how to prepare.</p>
+
+<h3>The Five Key Questions</h3>
+
+<table>
+<tr>
+<th>Question</th>
+<th>What They're Looking For</th>
+<th>Common Issues</th>
+</tr>
+<tr>
+<td><strong>Safe</strong></td>
+<td>Safeguarding, infection control, significant events, medicines management</td>
+<td>Incomplete SEA documentation, vaccine fridge monitoring gaps</td>
+</tr>
+<tr>
+<td><strong>Effective</strong></td>
+<td>Clinical outcomes, evidence-based care, staff training, consent</td>
+<td>Out-of-date protocols, incomplete training records</td>
+</tr>
+<tr>
+<td><strong>Caring</strong></td>
+<td>Patient feedback, dignity, involvement in decisions</td>
+<td>Low FFT response rates, poor complaint handling</td>
+</tr>
+<tr>
+<td><strong>Responsive</strong></td>
+<td>Access, complaints, vulnerable groups, appointment availability</td>
+<td>Long waits for routine appointments, poor telephone access</td>
+</tr>
+<tr>
+<td><strong>Well-led</strong></td>
+<td>Leadership, governance, culture, continuous improvement</td>
+<td>No documented meetings, unclear accountability</td>
+</tr>
+</table>
+
+<h3>Pre-Inspection Preparation Checklist</h3>
+<ul>
+<li><strong>Safeguarding leads</strong> — confirm named leads documented and trained to Level 3</li>
+<li><strong>Significant events</strong> — ensure last 12 months are documented with learning and actions</li>
+<li><strong>DBS checks</strong> — verify all clinical staff have current DBS on file</li>
+<li><strong>Training matrix</strong> — update to show mandatory training compliance</li>
+<li><strong>Policies</strong> — check review dates (inspectors look for out-of-date policies)</li>
+<li><strong>Medicines management</strong> — audit controlled drugs register, check fridge temperatures logged daily</li>
+<li><strong>Meeting minutes</strong> — ensure clinical and governance meetings are documented</li>
+<li><strong>Patient feedback</strong> — have recent FFT and complaints data available</li>
+</ul>
+
+<h3>What Happens on the Day</h3>
+<p>Inspectors typically spend 4-6 hours on site. They will:</p>
+<ul>
+<li>Interview the lead GP/partners and practice manager</li>
+<li>Speak with a range of clinical and non-clinical staff</li>
+<li>Review patient records (usually 10-15 randomly selected)</li>
+<li>Observe the premises and infection control measures</li>
+<li>Review documentation and policies</li>
+<li>Speak with patients (often in the waiting room)</li>
+</ul>
+
+<h3>Top Tips</h3>
+<ul>
+<li>Be honest about challenges — inspectors appreciate transparency</li>
+<li>Show learning and improvement, not just compliance</li>
+<li>Ensure all staff know the practice values and how they contribute</li>
+<li>Have evidence organised and accessible on the day</li>
+</ul>
+`
+            },
+            {
+                title: "ARRS Guidance Summary",
+                source: "NHS England",
+                topic: "Workforce",
+                urgency: "soon",
+                content: `
+<h3>Overview</h3>
+<p>The Additional Roles Reimbursement Scheme (ARRS) provides funding for PCNs to recruit additional staff. This summary covers eligible roles, funding rules, and key requirements for 2024/25.</p>
+
+<h3>Eligible Roles and Funding</h3>
+
+<table>
+<tr>
+<th>Role</th>
+<th>Max Reimbursement</th>
+<th>Notes</th>
+</tr>
+<tr>
+<td><strong>Clinical Pharmacist</strong></td>
+<td>£53,000 + on-costs</td>
+<td>Must complete CPPE pathway within 18 months</td>
+</tr>
+<tr>
+<td><strong>Social Prescribing Link Worker</strong></td>
+<td>£36,000 + on-costs</td>
+<td>No formal qualification required</td>
+</tr>
+<tr>
+<td><strong>Physician Associate</strong></td>
+<td>£50,000 + on-costs</td>
+<td>GMC registration required from 2024</td>
+</tr>
+<tr>
+<td><strong>First Contact Physiotherapist</strong></td>
+<td>£53,000 + on-costs</td>
+<td>Must be MSK specialist</td>
+</tr>
+<tr>
+<td><strong>Paramedic</strong></td>
+<td>£53,000 + on-costs</td>
+<td>Advanced practice training recommended</td>
+</tr>
+<tr>
+<td><strong>Mental Health Practitioner</strong></td>
+<td>£53,000 + on-costs</td>
+<td>Employed via ARRS or MHIS</td>
+</tr>
+<tr>
+<td><strong>Nursing Associate</strong></td>
+<td>£28,000 + on-costs</td>
+<td>NMC registered</td>
+</tr>
+<tr>
+<td><strong>Care Coordinator</strong></td>
+<td>£28,000 + on-costs</td>
+<td>No formal qualification required</td>
+</tr>
+</table>
+
+<h3>Key Rules</h3>
+<ul>
+<li><strong>Additionality</strong> — ARRS roles must be additional to existing workforce, not replacements</li>
+<li><strong>On-costs</strong> — includes employer NI, pension contributions, and recruitment costs</li>
+<li><strong>Part-time</strong> — pro-rata funding available for part-time roles</li>
+<li><strong>Supervision</strong> — clinical roles require appropriate supervision arrangements documented</li>
+<li><strong>Employment</strong> — can be employed by practices, PCN, federation, or other provider</li>
+</ul>
+
+<h3>Claiming Process</h3>
+<ol>
+<li>PCN agrees workforce plan with member practices</li>
+<li>Submit claim via PCSE monthly</li>
+<li>Evidence required: employment contract, payslips, training certificates</li>
+<li>Claims must be submitted within 3 months of expenditure</li>
+</ol>
+
+<h3>Common Pitfalls</h3>
+<ul>
+<li><strong>Late claims</strong> — funding is lost if not claimed within deadline</li>
+<li><strong>Missing evidence</strong> — keep employment contracts and training certificates organised</li>
+<li><strong>Exceeding caps</strong> — each role has a maximum reimbursement regardless of actual salary</li>
+<li><strong>Supervision gaps</strong> — ensure supervision arrangements are documented and delivered</li>
+</ul>
+
+<h3>2024/25 Changes</h3>
+<p>The main change for 2024/25 is increased flexibility in role deployment across the PCN footprint, and removal of some role-specific caps within the overall PCN allocation.</p>
+`
+            },
+            {
+                title: "Safeguarding Requirements Summary",
+                source: "ICB / NHS England",
+                topic: "Safeguarding",
+                urgency: "immediate",
+                content: `
+<h3>Overview</h3>
+<p>All GP practices must have robust safeguarding arrangements for children and adults at risk. This summary covers the key requirements, training levels, and compliance essentials.</p>
+
+<h3>Named Safeguarding Leads</h3>
+<p>Every practice must have documented:</p>
+<ul>
+<li><strong>Safeguarding Children Lead</strong> — usually a GP, trained to Level 3</li>
+<li><strong>Safeguarding Adults Lead</strong> — can be same person, trained to Level 3</li>
+<li><strong>Deputy leads</strong> — recommended for cover during absence</li>
+</ul>
+
+<h3>Training Requirements</h3>
+
+<table>
+<tr>
+<th>Staff Group</th>
+<th>Children</th>
+<th>Adults</th>
+<th>Frequency</th>
+</tr>
+<tr>
+<td><strong>GPs</strong></td>
+<td>Level 3</td>
+<td>Level 3</td>
+<td>Every 3 years</td>
+</tr>
+<tr>
+<td><strong>Practice Nurses</strong></td>
+<td>Level 3</td>
+<td>Level 3</td>
+<td>Every 3 years</td>
+</tr>
+<tr>
+<td><strong>HCAs</strong></td>
+<td>Level 2</td>
+<td>Level 2</td>
+<td>Every 3 years</td>
+</tr>
+<tr>
+<td><strong>Admin/Reception</strong></td>
+<td>Level 1</td>
+<td>Level 1</td>
+<td>Every 3 years</td>
+</tr>
+<tr>
+<td><strong>Practice Manager</strong></td>
+<td>Level 2</td>
+<td>Level 2</td>
+<td>Every 3 years</td>
+</tr>
+</table>
+
+<h3>What Level 3 Covers</h3>
+<ul>
+<li>Recognising signs of abuse and neglect in complex presentations</li>
+<li>Understanding thresholds for referral</li>
+<li>Working with multiagency partners</li>
+<li>Contributing to safeguarding meetings and reports</li>
+<li>Domestic abuse, FGM, modern slavery awareness</li>
+<li>Managing disclosures</li>
+</ul>
+
+<h3>Essential Policies</h3>
+<p>Your practice should have current policies covering:</p>
+<ul>
+<li>Safeguarding children policy (reviewed annually)</li>
+<li>Safeguarding adults policy (reviewed annually)</li>
+<li>Domestic abuse policy</li>
+<li>Chaperone policy</li>
+<li>Information sharing and confidentiality</li>
+</ul>
+
+<h3>Records and Coding</h3>
+<ul>
+<li><strong>Child Protection Register</strong> — maintain a register of children on CP plans</li>
+<li><strong>Looked After Children</strong> — flag LAC status clearly in records</li>
+<li><strong>Read codes</strong> — use appropriate codes for safeguarding concerns</li>
+<li><strong>Alerts</strong> — ensure alerts are visible to all clinicians</li>
+</ul>
+
+<h3>CQC Inspection Focus</h3>
+<p>Inspectors will ask:</p>
+<ul>
+<li>Who are your safeguarding leads and what training do they have?</li>
+<li>How do staff escalate concerns?</li>
+<li>Show me your training matrix for safeguarding</li>
+<li>How do you share information with other agencies?</li>
+<li>Tell me about a recent safeguarding case (anonymised)</li>
+</ul>
+`
+            },
+            {
+                title: "Controlled Drugs SOPs Summary",
+                source: "CQC / NHS England",
+                topic: "Medicines Management",
+                urgency: "fyi",
+                content: `
+<h3>Overview</h3>
+<p>GP practices that hold stock of controlled drugs must have robust standard operating procedures. This summary covers the essential requirements for safe CD management.</p>
+
+<h3>Storage Requirements</h3>
+<ul>
+<li><strong>CD Cabinet</strong> — must be a locked cabinet conforming to BS2881 or fixed to wall/floor</li>
+<li><strong>Location</strong> — within a locked room, ideally the treatment room or dispensary</li>
+<li><strong>Access</strong> — limited to authorised personnel only; keys held securely</li>
+<li><strong>No other items</strong> — CD cabinet should contain only controlled drugs</li>
+</ul>
+
+<h3>CD Register Requirements</h3>
+
+<table>
+<tr>
+<th>Must Record</th>
+<th>Details</th>
+</tr>
+<tr>
+<td><strong>Receipt</strong></td>
+<td>Date, quantity, form, supplier, received by (signature)</td>
+</tr>
+<tr>
+<td><strong>Administration</strong></td>
+<td>Date, patient name, quantity, form, administered by, witnessed by</td>
+</tr>
+<tr>
+<td><strong>Destruction</strong></td>
+<td>Date, quantity, form, reason, destroyed by, witnessed by (authorised witness)</td>
+</tr>
+<tr>
+<td><strong>Running balance</strong></td>
+<td>Updated after every entry; checked weekly</td>
+</tr>
+</table>
+
+<h3>Stock Checks</h3>
+<ul>
+<li><strong>Weekly balance check</strong> — physical count against register balance</li>
+<li><strong>Documented</strong> — record who checked and date</li>
+<li><strong>Discrepancies</strong> — investigate immediately; report to CD Accountable Officer if unexplained</li>
+</ul>
+
+<h3>Destruction of CDs</h3>
+<ul>
+<li><strong>Patient-returned CDs</strong> — can be destroyed by two signatories (one should be a prescriber)</li>
+<li><strong>Stock CDs</strong> — require an authorised witness (usually from ICB/CCG)</li>
+<li><strong>Denaturing kits</strong> — use approved kits; record serial numbers</li>
+<li><strong>Records</strong> — keep destruction records for 2 years minimum</li>
+</ul>
+
+<h3>Incidents and Reporting</h3>
+<p>Report to your CD Accountable Officer (usually via ICB) if:</p>
+<ul>
+<li>Stock discrepancy that cannot be explained</li>
+<li>Theft or suspected theft</li>
+<li>Loss of CDs</li>
+<li>Concerns about staff behaviour related to CDs</li>
+<li>Significant prescribing errors involving CDs</li>
+</ul>
+
+<h3>Common CQC Findings</h3>
+<ul>
+<li>Running balance not updated after every entry</li>
+<li>Weekly checks not documented</li>
+<li>CD cabinet not properly secured</li>
+<li>Out-of-date stock not identified and destroyed</li>
+<li>Register entries missing required details (e.g., witness signature)</li>
+</ul>
+
+<h3>Quick Checklist</h3>
+<ul>
+<li>☐ CD cabinet locked and secured to wall/floor</li>
+<li>☐ Register up to date with running balances</li>
+<li>☐ Weekly stock check documented</li>
+<li>☐ Staff know who has access to keys</li>
+<li>☐ Destruction records complete</li>
+<li>☐ Expiry dates checked monthly</li>
+</ul>
+`
+            }
+        ];
+
+        // State
+        let selectedScenario = null;
+
+        // DOM Elements
+        const scenarioCards = document.querySelectorAll('.scenario-card');
+        const decodeBtn = document.getElementById('decode-btn');
+        const inputSection = document.getElementById('input-section');
+        const loadingContainer = document.getElementById('loading-container');
+        const outputContainer = document.getElementById('output-container');
+        const outputTitle = document.getElementById('output-title');
+        const outputTags = document.getElementById('output-tags');
+        const outputContent = document.getElementById('output-content');
+        const backBtn = document.getElementById('back-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const printBtn = document.getElementById('print-btn');
+        const progressSteps = document.querySelectorAll('.progress-step');
+
+        // Scenario Selection
+        scenarioCards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                scenarioCards.forEach(c => {
+                    c.classList.remove('selected');
+                    c.setAttribute('aria-checked', 'false');
+                    c.setAttribute('tabindex', '-1');
+                });
+                card.classList.add('selected');
+                card.setAttribute('aria-checked', 'true');
+                card.setAttribute('tabindex', '0');
+                selectedScenario = index;
+                decodeBtn.disabled = false;
+            });
+
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.click();
+                }
+            });
+        });
+
+        // Decode Button
+        decodeBtn.addEventListener('click', async () => {
+            if (selectedScenario === null) return;
+
+            // Show loading
+            inputSection.classList.add('hidden');
+            loadingContainer.classList.add('visible');
+
+            // Animate progress steps
+            await animateProgress();
+
+            // Show output
+            loadingContainer.classList.remove('visible');
+            showOutput();
+        });
+
+        async function animateProgress() {
+            const steps = ['1', '2', '3', '4'];
+            for (const step of steps) {
+                const stepEl = document.querySelector(`.progress-step[data-step="${step}"]`);
+                stepEl.classList.add('active');
+                stepEl.querySelector('.step-icon').textContent = '◐';
+                await sleep(600);
+                stepEl.classList.remove('active');
+                stepEl.classList.add('completed');
+                stepEl.querySelector('.step-icon').textContent = '✓';
+            }
+            await sleep(300);
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function showOutput() {
+            const scenario = SCENARIOS[selectedScenario];
+
+            outputTitle.textContent = scenario.title;
+
+            // Build tags
+            outputTags.innerHTML = `
+                <span class="tag-badge source">${scenario.source}</span>
+                <span class="tag-badge topic">${scenario.topic}</span>
+            `;
+
+            outputContent.innerHTML = scenario.content;
+
+            outputContainer.classList.add('visible');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Back Button
+        backBtn.addEventListener('click', () => {
+            outputContainer.classList.remove('visible');
+            inputSection.classList.remove('hidden');
+
+            // Reset progress steps
+            progressSteps.forEach(step => {
+                step.classList.remove('active', 'completed');
+                step.querySelector('.step-icon').textContent = '○';
+            });
+
+            // Reset selection
+            selectedScenario = null;
+            decodeBtn.disabled = true;
+            scenarioCards.forEach(c => {
+                c.classList.remove('selected');
+                c.setAttribute('aria-checked', 'false');
+            });
+        });
+
+        // Copy Button
+        copyBtn.addEventListener('click', () => {
+            const text = outputContent.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                copyBtn.textContent = '✓ Copied!';
+                setTimeout(() => {
+                    copyBtn.textContent = '📋 Copy Summary';
+                }, 2000);
+            });
+        });
+
+        // Print Button
+        printBtn.addEventListener('click', () => {
+            window.print();
+        });
+    </script>
+</body>
+</html>

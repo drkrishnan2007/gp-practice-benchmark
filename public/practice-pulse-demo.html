@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Pulse Demo - Staff Wellbeing Support</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #4A9B9B;
+            --primary-dark: #3D8282;
+            --secondary: #6B7280;
+            --background: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --accent: #E11D48;
+            --accent-light: #FDF2F4;
+            --accent-dark: #BE123C;
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --border: #E5E7EB;
+            --success: #10B981;
+            --calm: #CCFBF1;
+            --demo-banner: #7C3AED;
+        }
+
+        html { font-size: 16px; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus { top: 0; }
+
+        /* Demo Banner */
+        .demo-banner {
+            background: linear-gradient(135deg, var(--demo-banner) 0%, #5B21B6 100%);
+            color: white;
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-banner strong { font-weight: 600; }
+
+        .demo-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: 8px;
+        }
+
+        .demo-banner .back-link {
+            text-decoration: none;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .demo-banner {
+                flex-direction: column;
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            .demo-banner .back-link {
+                margin-right: 0;
+                margin-bottom: 4px;
+            }
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        header {
+            text-align: center;
+            padding: 24px 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        header .tagline {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .demo-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        main { padding: 24px 0; }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+        }
+
+        .card h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        .welcome-card { border-left: 4px solid var(--primary); }
+
+        .welcome-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .welcome-card li {
+            padding: 6px 0 6px 24px;
+            position: relative;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .welcome-card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        /* Scenario Cards */
+        .scenario-section h2 {
+            margin-bottom: 16px;
+        }
+
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .scenario-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .scenario-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 155, 155, 0.15);
+        }
+
+        .scenario-card:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .scenario-card.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(74, 155, 155, 0.08) 0%, rgba(74, 155, 155, 0.04) 100%);
+        }
+
+        .scenario-icon {
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+
+        .scenario-content {
+            flex: 1;
+        }
+
+        .scenario-role {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .scenario-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .scenario-preview {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:focus {
+            outline: 2px solid var(--text-primary);
+            outline-offset: 2px;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-dark);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-accent:hover:not(:disabled) {
+            background: var(--accent-dark);
+        }
+
+        .btn-secondary {
+            background: var(--background);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--border);
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        @media (min-width: 480px) {
+            .action-buttons {
+                flex-direction: row;
+            }
+            .action-buttons .btn {
+                flex: 1;
+            }
+        }
+
+        /* Output Section */
+        .output-section {
+            display: none;
+        }
+
+        .output-section.visible {
+            display: block;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .chat-message {
+            max-width: 88%;
+            padding: 18px 22px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.75;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-message.user {
+            align-self: flex-end;
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+            padding: 16px 20px;
+        }
+
+        .chat-message.assistant {
+            align-self: flex-start;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-message.assistant p {
+            margin-bottom: 16px;
+        }
+
+        .chat-message.assistant p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Follow-up Section */
+        .follow-up-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .follow-up-prompt {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .follow-up-options {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .follow-up-chip {
+            padding: 8px 16px;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .follow-up-chip:hover:not(:disabled) {
+            background: var(--calm);
+            border-color: var(--primary);
+            color: var(--primary-dark);
+        }
+
+        .follow-up-chip:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Resources Panel */
+        .resources-panel {
+            background: var(--accent-light);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .resources-panel h3 {
+            color: var(--accent-dark);
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .resources-panel ul {
+            list-style: none;
+        }
+
+        .resources-panel li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(225, 29, 72, 0.2);
+            font-size: 0.9rem;
+        }
+
+        .resources-panel li:last-child {
+            border-bottom: none;
+        }
+
+        .resources-panel .resource-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .resources-panel .resource-contact {
+            color: var(--accent);
+        }
+
+        /* Breathing Exercise */
+        .breathing-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .breathing-overlay.visible {
+            display: flex;
+        }
+
+        .breathing-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--calm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: breathe 8s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% {
+                transform: scale(1);
+                background: var(--calm);
+            }
+            50% {
+                transform: scale(1.3);
+                background: var(--primary);
+            }
+        }
+
+        .breathing-text {
+            color: white;
+            font-size: 1.25rem;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .breathing-instruction {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            margin-top: 10px;
+            text-align: center;
+            min-height: 24px;
+        }
+
+        .breathing-timer {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        .breathing-close {
+            margin-top: 30px;
+            padding: 12px 24px;
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .breathing-close:hover {
+            background: white;
+            color: var(--text-primary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--demo-banner) 0%, #5B21B6 100%);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .cta-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .cta-section p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 16px;
+        }
+
+        .cta-section .btn {
+            background: white;
+            color: var(--demo-banner);
+        }
+
+        .cta-section .btn:hover {
+            background: #f3f4f6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 24px 16px;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        footer .brand {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        footer .disclaimer {
+            font-size: 0.8rem;
+            color: var(--secondary);
+            line-height: 1.5;
+        }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 480px) {
+            header h1 { font-size: 1.5rem; }
+            .scenario-card { padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="demo-banner">
+        <a href="/" class="back-link">← Back to Pro</a>
+        <span><strong>Demo Mode</strong> — Explore 5 example scenarios</span>
+    </div>
+
+    <header>
+        <h1>Practice Pulse</h1>
+        <p class="tagline">Your confidential support companion</p>
+        <span class="demo-badge">Interactive Demo</span>
+    </header>
+
+    <main id="main-content">
+        <div class="container">
+            <!-- Welcome Section -->
+            <section class="card welcome-card" aria-label="Welcome information">
+                <h2>A moment for you</h2>
+                <p>Working in general practice is demanding. Practice Pulse is here to offer you confidential, practical support whenever you need it.</p>
+                <ul>
+                    <li>This is not therapy - it's practical coaching support</li>
+                    <li>Get techniques that work in real GP practice situations</li>
+                    <li>Use "Quick Reset" anytime for a calming breathing exercise</li>
+                </ul>
+            </section>
+
+            <!-- Scenario Selection -->
+            <section class="card scenario-section" id="scenario-section" aria-label="Select a scenario">
+                <h2>Choose a scenario to explore</h2>
+                <p>See how Practice Pulse supports different roles and situations in general practice.</p>
+
+                <div class="scenario-grid" role="radiogroup" aria-label="Demo scenarios">
+                    <button class="scenario-card" role="radio" aria-checked="false" data-scenario="0" tabindex="0">
+                        <span class="scenario-icon">🩺</span>
+                        <div class="scenario-content">
+                            <div class="scenario-role">GP / Doctor</div>
+                            <div class="scenario-title">Dealing with a formal complaint</div>
+                            <div class="scenario-preview">A patient has complained after a missed diagnosis, and it's really affecting me...</div>
+                        </div>
+                    </button>
+
+                    <button class="scenario-card" role="radio" aria-checked="false" data-scenario="1" tabindex="-1">
+                        <span class="scenario-icon">📞</span>
+                        <div class="scenario-content">
+                            <div class="scenario-role">Reception Team</div>
+                            <div class="scenario-title">Verbal abuse from a patient</div>
+                            <div class="scenario-preview">A patient was really aggressive about appointments today and I can't stop thinking about it...</div>
+                        </div>
+                    </button>
+
+                    <button class="scenario-card" role="radio" aria-checked="false" data-scenario="2" tabindex="-1">
+                        <span class="scenario-icon">👤</span>
+                        <div class="scenario-content">
+                            <div class="scenario-role">Practice Manager</div>
+                            <div class="scenario-title">Team conflict between staff</div>
+                            <div class="scenario-preview">There's ongoing tension between the clinical and admin teams and it's affecting morale...</div>
+                        </div>
+                    </button>
+
+                    <button class="scenario-card" role="radio" aria-checked="false" data-scenario="3" tabindex="-1">
+                        <span class="scenario-icon">💉</span>
+                        <div class="scenario-content">
+                            <div class="scenario-role">Nurse / HCA</div>
+                            <div class="scenario-title">Feeling burnt out after difficult shifts</div>
+                            <div class="scenario-preview">I've had a really tough week with back-to-back clinics and I feel completely drained...</div>
+                        </div>
+                    </button>
+
+                    <button class="scenario-card" role="radio" aria-checked="false" data-scenario="4" tabindex="-1">
+                        <span class="scenario-icon">📋</span>
+                        <div class="scenario-content">
+                            <div class="scenario-role">Administrative Staff</div>
+                            <div class="scenario-title">Overwhelmed with QOF and deadlines</div>
+                            <div class="scenario-preview">QOF deadline is approaching and I have so many tasks, I don't know where to start...</div>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="quick-reset-btn" aria-label="Quick Reset - 60 second breathing exercise">
+                        <span aria-hidden="true">🌿</span> Quick Reset
+                    </button>
+                    <button class="btn btn-accent" id="view-scenario-btn" disabled aria-label="View the selected scenario">
+                        <span aria-hidden="true">💬</span> View Scenario
+                    </button>
+                </div>
+            </section>
+
+            <!-- Output Section -->
+            <section class="output-section" id="output-section" aria-label="Support response">
+                <div class="card">
+                    <button class="btn btn-secondary" id="back-btn" style="margin-bottom: 16px;">
+                        ← Back to scenarios
+                    </button>
+
+                    <div class="chat-container" id="chat-container"></div>
+
+                    <div class="follow-up-section" id="follow-up-section">
+                        <p class="follow-up-prompt">Would you like to continue?</p>
+                        <div class="follow-up-options">
+                            <button class="follow-up-chip" id="followup-more">Tell me more</button>
+                            <button class="follow-up-chip" id="followup-different">Try another approach</button>
+                        </div>
+                    </div>
+
+                    <div class="resources-panel">
+                        <h3>Support is always available</h3>
+                        <ul>
+                            <li>
+                                <span class="resource-name">Shout Crisis Text Line:</span>
+                                <span class="resource-contact">Text SHOUT to 85258</span> (24/7)
+                            </li>
+                            <li>
+                                <span class="resource-name">Samaritans:</span>
+                                <span class="resource-contact">116 123</span> (24/7)
+                            </li>
+                            <li>
+                                <span class="resource-name">Mind Infoline:</span>
+                                <span class="resource-contact">0300 123 3393</span> (Mon-Fri 9am-6pm)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="cta-section">
+                    <p style="margin: 0;">Built by Aryash Health for GP practices</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Breathing Exercise Overlay -->
+    <div class="breathing-overlay" id="breathing-overlay" role="dialog" aria-modal="true" aria-label="Breathing exercise">
+        <div class="breathing-circle" aria-hidden="true"></div>
+        <p class="breathing-text">Let's take a moment together</p>
+        <p class="breathing-instruction" id="breathing-instruction">Breathe in slowly...</p>
+        <p class="breathing-timer" id="breathing-timer">60 seconds</p>
+        <button class="breathing-close" id="breathing-close">I'm ready to continue</button>
+    </div>
+
+    <footer>
+        <p class="brand">Built by Aryash Health</p>
+        <p class="disclaimer">This tool provides general support and is not a substitute for professional mental health services. If you're in crisis, please contact your GP, call 111, or visit mind.org.uk</p>
+    </footer>
+
+    <script>
+        // Demo Scenarios Data
+        const SCENARIOS = [
+            {
+                role: "GP / Doctor",
+                icon: "🩺",
+                title: "Dealing with a formal complaint",
+                situation: "I received notification of a formal complaint yesterday. A patient I saw three months ago was later diagnosed with bowel cancer, and they're saying I missed it. I've been going over and over the consultation in my head. I documented everything, I examined them, but the symptoms were vague at the time. I can't sleep, and I'm second-guessing every decision I make now with patients.",
+                response: `I can hear how much this is weighing on you, and I want you to know that what you're feeling is completely understandable. Receiving a complaint, especially one involving a serious diagnosis, hits at the very heart of why we do this work — and the fear of having caused harm can be overwhelming.
+
+The fact that you're going over and over the consultation tells me you care deeply about your patients. But I also know that this kind of rumination can become a spiral that affects everything — your confidence, your sleep, your clinical work.
+
+Here's something that might help: try the "documentation defence" reframe. Right now, your brain is treating this complaint as evidence that you did something wrong. But a complaint is not a verdict — it's a process. The fact that you documented thoroughly, examined the patient, and made a reasonable decision with the information you had is exactly what good practice looks like.
+
+One technique that can help with the rumination is "thought parking." When you notice yourself replaying the consultation, acknowledge the thought: "I notice I'm going over this again." Then consciously say to yourself: "I will think about this during a specific time" — perhaps 15 minutes at the end of the day. Outside that time, when the thought returns, gently redirect yourself: "Not now — I've parked that thought."
+
+As a next step, I'd suggest speaking to your medical defence organisation today if you haven't already. They've seen thousands of these cases, and they can offer perspective as well as practical support.
+
+You're carrying the weight of clinical responsibility, which is genuinely hard. Be kind to yourself today — you're doing harder work than most people realise.`,
+                followUp: {
+                    question: "Tell me more",
+                    response: `Let me expand on a few things that might help you through this.
+
+First, about the "thought parking" technique — the reason it works is that rumination often happens because our brains think we're "solving" something by going over it repeatedly. By giving yourself permission to think about it at a specific time, you're not suppressing the thought, you're scheduling it. Many people find that when they sit down for their "worry time," the thoughts have less power.
+
+Second, I want to normalise something: clinical uncertainty is part of medicine. Early symptoms of serious conditions often mimic benign ones — that's not a failure of care, that's the nature of illness. The NHS sees around 300 million GP consultations a year. The vast majority of vague symptoms turn out to be nothing serious. The system cannot function if we investigate everything aggressively from day one.
+
+In terms of practical self-care during this process:
+- Try to maintain your normal routines — sleep, exercise, eating
+- Talk to a trusted colleague if you can; you're not alone in experiencing this
+- Consider your Employee Assistance Programme if you need more support
+- Your MDO may also offer counselling specifically for doctors facing complaints
+
+The complaint process will run its course. Your job right now is to get through it without it breaking you. And that means protecting your wellbeing as deliberately as you'd protect a patient's.
+
+Would it help to talk about any specific aspect of this?`
+                }
+            },
+            {
+                role: "Reception Team",
+                icon: "📞",
+                title: "Verbal abuse from a patient",
+                situation: "A patient came in today absolutely furious that we couldn't give them a same-day appointment. They were shouting at me, calling me names, saying it was my fault their grandmother might die. Everyone in the waiting room was watching. I kept calm but inside I was shaking. I've been home for hours now and I still feel sick thinking about it. I don't want to go back tomorrow.",
+                response: `I'm so sorry that happened to you. What you experienced was verbal abuse — there's no other word for it — and it's completely understandable that you're still feeling shaken. The fact that you kept calm in the moment took real strength, but your body is still processing the stress.
+
+First, I want to validate something: this was not your fault. You didn't create the appointment shortage. You didn't make their grandmother ill. You were simply the person they could direct their fear and frustration at — and that's not okay, even if we understand where it came from.
+
+The physical symptoms you're describing — feeling sick, the shaking — that's your nervous system responding to what felt like a threat. It's a normal response to an abnormal situation.
+
+Here's a technique that might help tonight: grounding through your senses. Right now, take a slow breath and notice five things you can see around you. Then four things you can hear. Then three things you can touch. This helps bring your nervous system back to the present moment, away from replaying the incident.
+
+When you think about tomorrow, try to separate two things: the fear of it happening again (which is your brain trying to protect you) and the reality that tomorrow is a different day with different patients. Most people who walk through that door are not going to shout at you.
+
+One practical step: before you go in tomorrow, have a quick word with your practice manager about what happened. Not to make a formal complaint necessarily, but so they know, so you feel supported, and so there's a record if this patient has a pattern of behaviour.
+
+You showed real professionalism today. Please don't let one person's behaviour make you feel like you can't do this job — you clearly can.`,
+                followUp: {
+                    question: "Try another approach",
+                    response: `Let me offer a different way to think about this.
+
+The STOP technique can be really helpful for moments when you're feeling overwhelmed by a memory or dreading going back to work:
+
+**S** - Stop what you're doing. Pause.
+**T** - Take a breath. A slow, deliberate one.
+**O** - Observe what's happening in your body and mind. "I notice my chest feels tight. I notice I'm thinking about tomorrow."
+**P** - Proceed with something that matters. What's one small thing you can do right now?
+
+Another approach that works for some people is writing it out. Not a formal account, just free-writing about what happened and how you felt. Sometimes getting it out of your head and onto paper can reduce its power.
+
+In terms of building resilience for the front desk:
+- You can't control how patients behave, but you can have prepared phrases: "I can hear you're frustrated. Let me see what I can do."
+- It's okay to say: "I'm going to ask you to lower your voice so I can help you."
+- If someone is being abusive, you're allowed to end the interaction: "I'm not able to help you while you're speaking to me like this."
+
+Your practice should also have a zero-tolerance policy displayed. If they don't, that's worth raising.
+
+Finally, remember: being upset about this doesn't mean you're not cut out for the job. It means you're human. The people who feel nothing in situations like this aren't the ones I'd want answering my calls.
+
+Would you like to talk about anything else?`
+                }
+            },
+            {
+                role: "Practice Manager",
+                icon: "👤",
+                title: "Team conflict between staff",
+                situation: "I've got a really difficult situation brewing. There's been ongoing tension between the clinical team and admin staff for months. The nurses feel like reception don't understand the pressure they're under, and reception feel like they're being blamed for everything that goes wrong. Last week there was an argument in the corridor that patients overheard. I've tried to mediate but it just keeps coming back. I feel like I'm failing as a manager.",
+                response: `Managing conflict between teams is one of the hardest parts of practice management — and the fact that it's persisting doesn't mean you're failing. It often means the underlying issues haven't been fully surfaced yet.
+
+What you're describing sounds like a classic "us vs them" dynamic, where both groups feel undervalued and misunderstood. When people feel unheard, they stop trying to understand the other side. The corridor argument is a symptom, not the cause.
+
+Here's a framework that can help: the DESC approach for addressing team conflict.
+
+**D** - Describe the situation factually: "We've had several incidents of tension between clinical and admin teams, including an argument that patients witnessed."
+
+**E** - Express the impact: "This is affecting morale, patient experience, and my ability to manage effectively."
+
+**S** - Specify what you want: "I need us to find a way to work together with mutual respect."
+
+**C** - Consequences: "If we don't address this, we risk formal grievances, staff leaving, and potentially CQC concerns about culture."
+
+A practical next step might be to hold separate "listening sessions" with each group. Not to solve anything yet, but just to hear their perspective without the other team present. Often people just need to feel heard before they can move forward.
+
+Then consider a facilitated session with both groups, focusing not on airing grievances but on shared goals: "What do we all want for our patients? What do we all need to do our jobs well?"
+
+You're not failing — you're dealing with one of the most common and challenging issues in practice management. The fact that you're taking it seriously is exactly what good leadership looks like.`,
+                followUp: {
+                    question: "Tell me more",
+                    response: `Let me give you some more practical tools for this situation.
+
+**The "Walk in Their Shoes" Exercise**
+
+One technique that can shift dynamics is to have each team spend time describing the other team's day. Not defensively, but genuinely: "What do you think reception deals with on a Monday morning?" and "What do you think the nurses are juggling during a chronic disease clinic?"
+
+Often, teams don't actually know what the other side does. Making it visible builds empathy.
+
+**Regular Forums**
+
+Consider establishing a monthly "all team" meeting where clinical and admin staff come together, not for complaints, but for updates, recognition, and problem-solving. Having a regular space reduces the pressure-cooker effect.
+
+**The Partnership Dynamic**
+
+You might also look at language. Are clinical staff talking about "the admin" and vice versa? Try shifting to "the team" — it sounds small, but language shapes culture.
+
+**For the Immediate Issue**
+
+For the specific argument that happened:
+- Speak to both individuals privately
+- Focus on behaviour, not character: "The argument that happened was not acceptable in a patient-facing area"
+- Document it, but frame it as a conversation, not a warning initially
+- Be clear about expectations going forward
+
+**Supporting Yourself**
+
+And finally — managing conflict is exhausting. Make sure you're also getting support. Your LMC, a peer group of practice managers, or even a business coach can provide a space for you to process the challenges without having to be "the one with the answers."
+
+You're holding a lot. That's worth acknowledging too.`
+                }
+            },
+            {
+                role: "Nurse / HCA",
+                icon: "💉",
+                title: "Feeling burnt out after difficult shifts",
+                situation: "I've had the most exhausting week. Back-to-back chronic disease clinics, two patients who got really distressed during their reviews, a complaint about waiting times that I couldn't do anything about, and I'm covering for a colleague who's off sick. I'm supposed to have tomorrow off but I keep thinking about the patients I've still got to see. I feel completely empty.",
+                response: `What you're describing sounds like the kind of week that would exhaust anyone — and the fact that you feel empty isn't a sign of weakness, it's a sign you've been giving more than you've got.
+
+Chronic disease clinics are emotionally heavy. You're not just doing clinical tasks — you're sitting with people's fears, their lifestyle struggles, their frustration with their bodies. When patients get distressed, you absorb some of that. And when you're covering for a colleague on top of that, there's no margin left.
+
+First, I want to acknowledge something: feeling empty after a week like this is compassion fatigue, and it's incredibly common in nursing. It doesn't mean you don't care anymore — it means you've cared so much that your reserves are depleted.
+
+Here's something that might help for tonight: a "transition ritual" to mark the end of work. This could be as simple as changing your clothes when you get home, having a cup of tea in a specific spot, or a 5-minute walk around the block. The purpose is to signal to your brain: "Work is over. I can put it down now."
+
+For the thoughts about patients you still need to see — try this: write down the names or tasks on a piece of paper, then physically put the paper somewhere away from you. Tell yourself: "They'll be there on Monday. Tonight, they're on the paper, not in my head."
+
+As a next step, please protect your day off tomorrow. Your brain and body need recovery time to function. The patients will be better served by a nurse who's had a rest than one running on empty.
+
+You're holding so much of the practice's clinical work together. That matters. And so does looking after yourself.`,
+                followUp: {
+                    question: "Tell me more",
+                    response: `Let me offer some more on compassion fatigue and sustainable practice.
+
+**Recognising the Signs**
+
+What you're experiencing — the emptiness, difficulty switching off, feeling like you've got nothing left to give — these are classic signs of compassion fatigue. Other signs include:
+- Dreading going to work
+- Feeling detached from patients
+- Physical symptoms: headaches, sleep problems, appetite changes
+- Irritability with colleagues or family
+
+Recognising it is the first step. Naming it takes away some of its power.
+
+**The Oxygen Mask Principle**
+
+You know the safety briefing on planes: put your own oxygen mask on first. It's not selfish — it's necessary. You cannot pour from an empty cup. The work you do matters enormously, but so does your capacity to keep doing it.
+
+**Practical Recovery Strategies**
+
+- **Micro-recovery:** Even 5-minute breaks during the day help. A cup of tea, a moment outside, a few deep breaths between patients.
+- **Boundaries:** It's okay to close the clinic room door during your lunch break. It's okay to say "I can't stay late today."
+- **Connection:** Talk to colleagues who understand. Shared experience reduces isolation.
+- **Joy inventory:** What used to bring you joy outside work? When did you last do it? Sometimes we need to deliberately schedule things that fill us up.
+
+**Longer Term**
+
+If these feelings persist, please consider speaking to your GP or occupational health. Burnout is a real risk in nursing, and early intervention makes a difference.
+
+You mentioned you "keep thinking about the patients you've still got to see." That tells me you care deeply. But caring doesn't mean carrying it all yourself. The practice is a team. The patients will be there — and you'll be better for them if you're better for yourself.`
+                }
+            },
+            {
+                role: "Administrative Staff",
+                icon: "📋",
+                title: "Overwhelmed with QOF and deadlines",
+                situation: "QOF deadline is in three weeks and I'm drowning. There are hundreds of recalls to do, coding that needs checking, and I keep getting interrupted with other urgent tasks. Every time I sit down to work on it, someone needs something else. My to-do list just keeps growing and I don't know where to start. I feel like I'm going to let everyone down.",
+                response: `I can hear the pressure you're under, and I want you to know that feeling overwhelmed when you're facing a deadline like QOF — with constant interruptions on top — is completely normal. You're not going to let everyone down; you're dealing with a genuinely difficult situation.
+
+The feeling of drowning often comes from everything feeling equally urgent and important. When everything is a priority, nothing is — and your brain gets stuck.
+
+Here's a technique that might help you get started: the "Two-List Method." Take a piece of paper and draw a line down the middle. On the left, write everything that's swirling in your head — every task, worry, recall, coding check. Don't filter, just dump it all out. On the right, pick the three most important things that will move QOF forward today.
+
+The left list isn't your to-do list — it's your "not now" list. It's captured, so your brain can stop trying to remember it. The right list is your focus for today.
+
+For the interruptions, try "office hours." Tell colleagues: "I'm blocking 9-11am for QOF work. Unless it's urgent, can you come to me after 11?" Even two hours of protected time can transform your productivity.
+
+One small next step: before you finish today, write down the single most important task for tomorrow morning. Put it where you'll see it. When you arrive, start there before opening emails or answering questions. This creates momentum.
+
+The mental load of tracking all those tasks is real. You're not failing — you're carrying a lot. Breaking it down will help it feel more manageable.`,
+                followUp: {
+                    question: "Try another approach",
+                    response: `Let me offer a different framework that works well for deadline-driven work.
+
+**The Urgent/Important Matrix**
+
+Draw a 2x2 grid:
+- **Top left:** Urgent AND Important — Do these first
+- **Top right:** Important but not urgent — Schedule time for these
+- **Bottom left:** Urgent but not important — Delegate or batch these
+- **Bottom right:** Neither urgent nor important — Let these go
+
+Most interruptions fall into "urgent but not important." Recognising that helps you say: "I'll get to that after my QOF block."
+
+**The Pomodoro Technique**
+
+Another approach for overwhelming tasks:
+1. Set a timer for 25 minutes
+2. Work on one task only
+3. When the timer goes, take a 5-minute break
+4. After 4 rounds, take a longer 15-30 minute break
+
+The magic is that 25 minutes feels manageable even when the whole project feels huge. You're not committing to finish — just to focus for 25 minutes.
+
+**Managing Expectations**
+
+It might also help to have a conversation with your practice manager about capacity. Not as a complaint, but factually: "Here's where we are with QOF. Here's what I need to hit the deadline. Here's what's getting in the way."
+
+Good managers want to know this. It's not failure to flag a risk — it's professional.
+
+**For Your Wellbeing**
+
+Finally, try to separate your self-worth from the to-do list. A long list doesn't mean you're bad at your job — it means there's a lot of work. You're one person. You can only do what you can do.
+
+Take it one day at a time. You've got this.`
+                }
+            }
+        ];
+
+        // State
+        let selectedScenario = null;
+        let showingFollowUp = false;
+
+        // DOM Elements
+        const scenarioCards = document.querySelectorAll('.scenario-card');
+        const viewScenarioBtn = document.getElementById('view-scenario-btn');
+        const quickResetBtn = document.getElementById('quick-reset-btn');
+        const scenarioSection = document.getElementById('scenario-section');
+        const outputSection = document.getElementById('output-section');
+        const chatContainer = document.getElementById('chat-container');
+        const backBtn = document.getElementById('back-btn');
+        const followUpSection = document.getElementById('follow-up-section');
+        const followUpMore = document.getElementById('followup-more');
+        const followUpDifferent = document.getElementById('followup-different');
+        const breathingOverlay = document.getElementById('breathing-overlay');
+        const breathingInstruction = document.getElementById('breathing-instruction');
+        const breathingTimer = document.getElementById('breathing-timer');
+        const breathingClose = document.getElementById('breathing-close');
+
+        // Scenario Selection
+        scenarioCards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                scenarioCards.forEach(c => {
+                    c.classList.remove('selected');
+                    c.setAttribute('aria-checked', 'false');
+                    c.setAttribute('tabindex', '-1');
+                });
+                card.classList.add('selected');
+                card.setAttribute('aria-checked', 'true');
+                card.setAttribute('tabindex', '0');
+                selectedScenario = index;
+                viewScenarioBtn.disabled = false;
+            });
+
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.click();
+                }
+            });
+        });
+
+        // View Scenario
+        viewScenarioBtn.addEventListener('click', () => {
+            if (selectedScenario === null) return;
+
+            const scenario = SCENARIOS[selectedScenario];
+            showingFollowUp = false;
+
+            // Build chat
+            chatContainer.innerHTML = '';
+
+            // User message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message user';
+            userMsg.textContent = scenario.situation;
+            chatContainer.appendChild(userMsg);
+
+            // Assistant response
+            const assistantMsg = document.createElement('div');
+            assistantMsg.className = 'chat-message assistant';
+            assistantMsg.innerHTML = formatResponse(scenario.response);
+            chatContainer.appendChild(assistantMsg);
+
+            // Show output section
+            scenarioSection.classList.add('hidden');
+            outputSection.classList.add('visible');
+            followUpSection.style.display = 'block';
+            followUpMore.disabled = false;
+            followUpDifferent.disabled = false;
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Follow-up buttons
+        followUpMore.addEventListener('click', () => handleFollowUp('more'));
+        followUpDifferent.addEventListener('click', () => handleFollowUp('different'));
+
+        function handleFollowUp(type) {
+            if (showingFollowUp || selectedScenario === null) return;
+            showingFollowUp = true;
+
+            const scenario = SCENARIOS[selectedScenario];
+
+            // User follow-up
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message user';
+            userMsg.textContent = scenario.followUp.question;
+            chatContainer.appendChild(userMsg);
+
+            // Assistant follow-up
+            const assistantMsg = document.createElement('div');
+            assistantMsg.className = 'chat-message assistant';
+            assistantMsg.innerHTML = formatResponse(scenario.followUp.response);
+            chatContainer.appendChild(assistantMsg);
+
+            // Disable follow-up buttons
+            followUpMore.disabled = true;
+            followUpDifferent.disabled = true;
+
+            // Scroll to new messages
+            setTimeout(() => {
+                userMsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        // Back button
+        backBtn.addEventListener('click', () => {
+            outputSection.classList.remove('visible');
+            scenarioSection.classList.remove('hidden');
+            selectedScenario = null;
+            showingFollowUp = false;
+            viewScenarioBtn.disabled = true;
+            scenarioCards.forEach(c => {
+                c.classList.remove('selected');
+                c.setAttribute('aria-checked', 'false');
+            });
+        });
+
+        // Format response
+        function formatResponse(text) {
+            return text
+                .split('\n\n')
+                .map(p => {
+                    // Handle bold text
+                    p = p.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+                    return `<p>${p.replace(/\n/g, '<br>')}</p>`;
+                })
+                .join('');
+        }
+
+        // Breathing Exercise
+        let breathingInterval = null;
+        let breathingTimeout = null;
+
+        quickResetBtn.addEventListener('click', () => {
+            breathingOverlay.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+
+            const instructions = [
+                { text: 'Breathe in slowly...', duration: 4000 },
+                { text: 'Breathe out slowly...', duration: 4000 }
+            ];
+            let step = 0;
+            let secondsLeft = 60;
+
+            function updateInstruction() {
+                breathingInstruction.textContent = instructions[step].text;
+                step = (step + 1) % instructions.length;
+            }
+
+            function updateTimer() {
+                secondsLeft--;
+                breathingTimer.textContent = `${secondsLeft} seconds`;
+                if (secondsLeft <= 0) {
+                    endBreathingExercise();
+                }
+            }
+
+            updateInstruction();
+            breathingInterval = setInterval(updateInstruction, 4000);
+            breathingTimeout = setInterval(updateTimer, 1000);
+        });
+
+        function endBreathingExercise() {
+            if (breathingInterval) clearInterval(breathingInterval);
+            if (breathingTimeout) clearInterval(breathingTimeout);
+            breathingOverlay.classList.remove('visible');
+            document.body.style.overflow = '';
+            breathingTimer.textContent = '60 seconds';
+            breathingInstruction.textContent = 'Breathe in slowly...';
+            quickResetBtn.focus();
+        }
+
+        breathingClose.addEventListener('click', endBreathingExercise);
+
+        breathingOverlay.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') endBreathingExercise();
+        });
+    </script>
+</body>
+</html>
