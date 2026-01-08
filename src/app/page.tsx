@@ -346,7 +346,7 @@ export default function LandingPage() {
                 About Aryash Health
               </a>
               <a
-                href="mailto:krishnan@aryash.health"
+                href="mailto:krishnan@aryashhealth.com"
                 className="text-teal-400 hover:text-teal-300 transition-colors"
               >
                 Contact
