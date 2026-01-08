@@ -42,3 +42,4 @@ next-env.d.ts
 
 # NHS data source files (large CSVs)
 /raw-data/
+.env*.local

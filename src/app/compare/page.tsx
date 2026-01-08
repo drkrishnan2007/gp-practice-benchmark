@@ -361,7 +361,7 @@ function ComparePageContent() {
                   </div>
                 </div>
                 <a
-                  href="/"
+                  href="/health-check"
                   className="text-teal-600 hover:underline text-sm whitespace-nowrap"
                 >
                   Use Health Check calculator &rarr;
@@ -722,7 +722,7 @@ function ComparePageContent() {
           </p>
           <p className="mt-3">
             <a href="/" className="text-teal-600 hover:underline">
-              &larr; Back to Health Check Calculator
+              &larr; Back to Tools Home
             </a>
           </p>
         </footer>
