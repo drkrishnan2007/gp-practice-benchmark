@@ -1,0 +1,123 @@
+name: Refresh NHS Digital Data
+
+on:
+  # Run monthly on the 20th at 9am UTC (NHS Digital usually publishes mid-month)
+  schedule:
+    - cron: '0 9 20 * *'
+
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      workforce_url:
+        description: 'GP Workforce CSV URL (optional - will auto-detect if empty)'
+        required: false
+        type: string
+      patients_url:
+        description: 'Patient Registration CSV URL (optional - will auto-detect if empty)'
+        required: false
+        type: string
+
+jobs:
+  refresh-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create raw-data directory
+        run: mkdir -p raw-data
+
+      - name: Download NHS Digital data
+        id: download
+        run: |
+          chmod +x scripts/download-nhs-data.sh
+          ./scripts/download-nhs-data.sh "${{ inputs.workforce_url }}" "${{ inputs.patients_url }}"
+        continue-on-error: true
+
+      - name: Process NHS data
+        if: steps.download.outcome == 'success'
+        run: npx tsx scripts/process-nhs-data.ts
+
+      - name: Copy to public folder
+        if: steps.download.outcome == 'success'
+        run: cp src/data/practices.json public/practices.json
+
+      - name: Get current date
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet public/practices.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.download.outcome == 'success' && steps.changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public/practices.json
+          git commit -m "Update NHS Digital data - ${{ steps.date.outputs.date }}"
+          git push
+
+      - name: Create issue on failure
+        if: steps.download.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `NHS Data Refresh Failed - ${new Date().toISOString().split('T')[0]}`;
+            const body = `The automated NHS Digital data refresh failed.
+
+            **Possible causes:**
+            - NHS Digital changed their download URLs
+            - Files are not yet available for this month
+            - Network issues
+
+            **Manual steps:**
+            1. Visit [NHS Digital GP Workforce](https://digital.nhs.uk/data-and-information/publications/statistical/general-and-personal-medical-services)
+            2. Download the latest "Practice Level - Detailed" CSV
+            3. Visit [Patient Registration](https://digital.nhs.uk/data-and-information/publications/statistical/patients-registered-at-a-gp-practice)
+            4. Download the latest practice-level CSV
+            5. Run the workflow manually with the direct URLs
+
+            **Workflow run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['data-refresh', 'automated']
+            });
+
+      - name: Summary
+        run: |
+          echo "## NHS Data Refresh Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.download.outcome }}" == "success" ]; then
+            echo "✅ Download: Success" >> $GITHUB_STEP_SUMMARY
+            if [ "${{ steps.changes.outputs.changed }}" == "true" ]; then
+              echo "✅ Changes detected and committed" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "ℹ️ No changes detected (data unchanged)" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "❌ Download: Failed" >> $GITHUB_STEP_SUMMARY
+            echo "📋 Issue created for manual intervention" >> $GITHUB_STEP_SUMMARY
+          fi
