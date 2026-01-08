@@ -719,9 +719,13 @@ function ComparePageContent() {
           <p className="mt-2 text-slate-400 text-sm">
             Data sourced from NHS Digital. This tool is for information only and does not constitute financial or business advice.
           </p>
-          <p className="mt-4">
+          <p className="mt-4 space-x-4">
             <a href="/" className="text-teal-400 hover:underline">
               &larr; Back to Tools Home
+            </a>
+            <span className="text-slate-600">|</span>
+            <a href="https://aryash.health/privacy" className="text-teal-400 hover:underline">
+              Privacy
             </a>
           </p>
         </div>

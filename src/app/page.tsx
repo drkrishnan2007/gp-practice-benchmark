@@ -351,6 +351,9 @@ export default function LandingPage() {
               >
                 Contact
               </a>
+              <a href="https://aryash.health/privacy" className="text-teal-400 hover:text-teal-300 transition-colors">
+                Privacy
+              </a>
             </div>
           </div>
         </div>
