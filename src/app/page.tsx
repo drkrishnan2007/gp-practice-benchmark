@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-100">
       {/* Hero - Professional Profile */}
       <header className="bg-gradient-to-r from-teal-600 to-teal-700 text-white">
         <div className="max-w-5xl mx-auto px-4 py-12 md:py-16">
@@ -32,7 +32,7 @@ export default function LandingPage() {
             </div>
             <div className="flex flex-col gap-3 md:text-right">
               <a
-                href="https://www.linkedin.com/in/drkrishnanpasupathi/"
+                href="https://www.linkedin.com/in/krishnan-pasupathi-a68244129"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-teal-100 hover:text-white transition-colors"
@@ -48,9 +48,9 @@ export default function LandingPage() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 py-12">
-        {/* Live Tools Section */}
-        <section className="mb-16">
+      {/* Live Tools Section - White background */}
+      <section className="bg-white py-12 md:py-16">
+        <div className="max-w-5xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-2">
             <h2 className="text-2xl font-bold text-slate-800">Practice Tools</h2>
             <span className="px-2 py-0.5 bg-teal-100 text-teal-700 text-xs font-medium rounded-full">Live</span>
@@ -63,30 +63,30 @@ export default function LandingPage() {
             {/* Health Check Tool Card */}
             <Link
               href="/health-check"
-              className="group bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-teal-300 transition-all p-6"
+              className="group bg-white rounded-xl border-l-4 border-l-teal-500 border border-slate-200 shadow-md hover:shadow-xl hover:border-teal-300 transition-all p-4 md:p-6"
             >
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-teal-200 transition-colors">
-                  <svg className="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex items-start gap-3 md:gap-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-teal-200 transition-colors">
+                  <svg className="w-5 h-5 md:w-6 md:h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-slate-800 group-hover:text-teal-700 transition-colors mb-2">
+                  <h3 className="text-lg md:text-xl font-semibold text-slate-800 group-hover:text-teal-700 transition-colors mb-1 md:mb-2">
                     Practice Health Check
                   </h3>
-                  <p className="text-slate-600 text-sm mb-4">
+                  <p className="text-slate-600 text-xs md:text-sm mb-3 md:mb-4">
                     Enter your practice details to get personalised assessments on workforce capacity,
                     income estimates, and staffing costs against NHS benchmarks.
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded">Income calculator</span>
-                    <span className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded">Staffing analysis</span>
-                    <span className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded">Hiring costs</span>
+                  <div className="flex flex-wrap gap-1.5 md:gap-2">
+                    <span className="px-2 py-0.5 md:py-1 bg-slate-100 text-slate-600 text-xs rounded">Income calculator</span>
+                    <span className="px-2 py-0.5 md:py-1 bg-slate-100 text-slate-600 text-xs rounded">Staffing analysis</span>
+                    <span className="px-2 py-0.5 md:py-1 bg-slate-100 text-slate-600 text-xs rounded">Hiring costs</span>
                   </div>
                 </div>
               </div>
-              <div className="mt-4 pt-4 border-t border-slate-100 flex items-center text-teal-600 text-sm font-medium">
+              <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-slate-100 flex items-center text-teal-600 text-xs md:text-sm font-medium">
                 Open Health Check
                 <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -97,30 +97,30 @@ export default function LandingPage() {
             {/* Compare Tool Card */}
             <Link
               href="/compare"
-              className="group bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-teal-300 transition-all p-6"
+              className="group bg-white rounded-xl border-l-4 border-l-teal-500 border border-slate-200 shadow-md hover:shadow-xl hover:border-teal-300 transition-all p-4 md:p-6"
             >
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-teal-200 transition-colors">
-                  <svg className="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex items-start gap-3 md:gap-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-teal-200 transition-colors">
+                  <svg className="w-5 h-5 md:w-6 md:h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-slate-800 group-hover:text-teal-700 transition-colors mb-2">
+                  <h3 className="text-lg md:text-xl font-semibold text-slate-800 group-hover:text-teal-700 transition-colors mb-1 md:mb-2">
                     Practice Comparison
                   </h3>
-                  <p className="text-slate-600 text-sm mb-4">
+                  <p className="text-slate-600 text-xs md:text-sm mb-3 md:mb-4">
                     Search for your practice and compare against your PCN, ICB, Region, and
                     National averages. See where you stand on key metrics.
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded">6,158 practices</span>
-                    <span className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded">QOF data</span>
-                    <span className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded">Percentile rankings</span>
+                  <div className="flex flex-wrap gap-1.5 md:gap-2">
+                    <span className="px-2 py-0.5 md:py-1 bg-slate-100 text-slate-600 text-xs rounded">6,158 practices</span>
+                    <span className="px-2 py-0.5 md:py-1 bg-slate-100 text-slate-600 text-xs rounded">QOF data</span>
+                    <span className="px-2 py-0.5 md:py-1 bg-slate-100 text-slate-600 text-xs rounded">Percentile rankings</span>
                   </div>
                 </div>
               </div>
-              <div className="mt-4 pt-4 border-t border-slate-100 flex items-center text-teal-600 text-sm font-medium">
+              <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-slate-100 flex items-center text-teal-600 text-xs md:text-sm font-medium">
                 Compare Your Practice
                 <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -128,17 +128,19 @@ export default function LandingPage() {
               </div>
             </Link>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* The Four M's */}
-        <section className="mb-16">
+      {/* The Four M's - Slate background */}
+      <section className="bg-slate-100 py-12 md:py-16">
+        <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-slate-800 mb-2">The Four M&apos;s</h2>
           <p className="text-slate-600 mb-8">
             Core areas of focus across clinical practice and leadership.
           </p>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-            <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-5">
+            <div className="bg-white rounded-lg border border-slate-200 shadow-md p-4 md:p-5">
               <div className="w-8 h-8 md:w-10 md:h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-2 md:mb-3">
                 <svg className="w-4 h-4 md:w-5 md:h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -148,7 +150,7 @@ export default function LandingPage() {
               <p className="text-xs md:text-sm text-slate-600">Managing patients with multiple long-term conditions</p>
             </div>
 
-            <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-5">
+            <div className="bg-white rounded-lg border border-slate-200 shadow-md p-4 md:p-5">
               <div className="w-8 h-8 md:w-10 md:h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-2 md:mb-3">
                 <svg className="w-4 h-4 md:w-5 md:h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -158,7 +160,7 @@ export default function LandingPage() {
               <p className="text-xs md:text-sm text-slate-600">Training registrars, AI-enhanced resources</p>
             </div>
 
-            <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-5">
+            <div className="bg-white rounded-lg border border-slate-200 shadow-md p-4 md:p-5">
               <div className="w-8 h-8 md:w-10 md:h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-2 md:mb-3">
                 <svg className="w-4 h-4 md:w-5 md:h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -168,7 +170,7 @@ export default function LandingPage() {
               <p className="text-xs md:text-sm text-slate-600">Surgical background in general practice</p>
             </div>
 
-            <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-5">
+            <div className="bg-white rounded-lg border border-slate-200 shadow-md p-4 md:p-5">
               <div className="w-8 h-8 md:w-10 md:h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-2 md:mb-3">
                 <svg className="w-4 h-4 md:w-5 md:h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -178,18 +180,20 @@ export default function LandingPage() {
               <p className="text-xs md:text-sm text-slate-600">Business thinking in healthcare</p>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Background */}
-        <section className="mb-16">
-          <div className="grid md:grid-cols-2 gap-8">
+      {/* Background - White background */}
+      <section className="bg-white py-12 md:py-16">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             {/* For Doctors & Trainees */}
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+            <div className="bg-slate-50 rounded-xl border-l-4 border-l-teal-500 shadow-md p-6">
               <h3 className="text-xl font-bold text-slate-800 mb-4">For Doctors & Trainees</h3>
               <p className="text-slate-600 text-sm mb-4">
                 Teaching, mentoring, and exploring AI in GP training.
               </p>
-              <ul className="space-y-2 text-sm text-slate-600 mb-4">
+              <ul className="space-y-2 text-sm text-slate-700 mb-4">
                 <li className="flex items-start gap-2">
                   <svg className="w-4 h-4 text-teal-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -221,12 +225,12 @@ export default function LandingPage() {
             </div>
 
             {/* For Leaders & Managers */}
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+            <div className="bg-slate-50 rounded-xl border-l-4 border-l-teal-500 shadow-md p-6">
               <h3 className="text-xl font-bold text-slate-800 mb-4">For Leaders & Managers</h3>
               <p className="text-slate-600 text-sm mb-4">
                 Practice leadership, team management, and AI tools for healthcare organisations.
               </p>
-              <ul className="space-y-2 text-sm text-slate-600 mb-4">
+              <ul className="space-y-2 text-sm text-slate-700 mb-4">
                 <li className="flex items-start gap-2">
                   <svg className="w-4 h-4 text-teal-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -257,17 +261,19 @@ export default function LandingPage() {
               </p>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Coming Soon Section */}
-        <section className="mb-16">
+      {/* Coming Soon Section - Slate background */}
+      <section className="bg-slate-100 py-12 md:py-16">
+        <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-slate-800 mb-2">Coming Soon</h2>
           <p className="text-slate-600 mb-6">
             More tools in development to support GP practice leadership.
           </p>
 
           <div className="grid md:grid-cols-3 gap-4">
-            <div className="bg-white rounded-lg border border-slate-200 p-5 opacity-75">
+            <div className="bg-white/80 rounded-lg border border-slate-200 shadow p-5">
               <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-3">
                 <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -277,7 +283,7 @@ export default function LandingPage() {
               <p className="text-sm text-slate-500">Confidential AI coaching companion for practice staff challenges</p>
             </div>
 
-            <div className="bg-white rounded-lg border border-slate-200 p-5 opacity-75">
+            <div className="bg-white/80 rounded-lg border border-slate-200 shadow p-5">
               <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-3">
                 <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -287,7 +293,7 @@ export default function LandingPage() {
               <p className="text-sm text-slate-500">Translates NHS policy documents into plain English summaries</p>
             </div>
 
-            <div className="bg-white rounded-lg border border-slate-200 p-5 opacity-75">
+            <div className="bg-white/80 rounded-lg border border-slate-200 shadow p-5">
               <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mb-3">
                 <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -297,11 +303,13 @@ export default function LandingPage() {
               <p className="text-sm text-slate-500">Business guidance for GP partnership decisions</p>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Data Sources */}
-        <section className="mb-16">
-          <div className="bg-slate-100 rounded-xl p-6">
+      {/* Data Sources - White background */}
+      <section className="bg-white py-8">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
             <h3 className="text-sm font-semibold text-slate-700 mb-3">Data Sources</h3>
             <div className="grid md:grid-cols-2 gap-4 text-sm text-slate-600">
               <ul className="space-y-1">
@@ -314,32 +322,32 @@ export default function LandingPage() {
               </ul>
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-8">
+      <footer className="bg-slate-800 text-white py-8">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
             <div>
-              <p className="font-medium text-slate-800 mb-1">Aryash Health</p>
-              <p className="text-sm text-slate-600 mb-3">
+              <p className="font-medium text-white mb-1">Aryash Health</p>
+              <p className="text-sm text-slate-300 mb-3">
                 Independent tools by Dr Krishnan Pasupathi
               </p>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 Data sourced from NHS Digital. For information only — not financial or business advice.
               </p>
             </div>
             <div className="flex flex-col gap-2 text-sm md:text-right">
-              <a href="https://tools.aryash.health" className="text-teal-600 hover:underline">
+              <a href="https://tools.aryash.health" className="text-teal-400 hover:text-teal-300 transition-colors">
                 Patient Tools
               </a>
-              <a href="https://aryash.health" className="text-teal-600 hover:underline">
+              <a href="https://aryash.health" className="text-teal-400 hover:text-teal-300 transition-colors">
                 About Aryash Health
               </a>
               <a
                 href="mailto:krishnan@aryash.health"
-                className="text-teal-600 hover:underline"
+                className="text-teal-400 hover:text-teal-300 transition-colors"
               >
                 Contact
               </a>

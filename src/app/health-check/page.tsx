@@ -299,7 +299,7 @@ export default function Home() {
   const hasFinancialInputs = calculations.income > 0 && calculations.staffCostsAmount > 0;
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-100">
       {/* Header */}
       <header className="bg-gradient-to-r from-teal-600 to-teal-700 text-white py-6">
         <div className="max-w-4xl mx-auto px-4">
@@ -312,7 +312,7 @@ export default function Home() {
 
       <main className="max-w-4xl mx-auto px-4 py-8">
         {/* Introduction */}
-        <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-md border-l-4 border-l-teal-500 border border-slate-200 p-6 mb-8">
           <p className="text-lg text-slate-700">
             This tool helps GP partners see how their practice compares to published NHS data.
             Enter your numbers below to get an honest assessment — whether that&apos;s reassurance
@@ -329,7 +329,7 @@ export default function Home() {
         </div>
 
         {/* Phase 1: Basic Staffing */}
-        <section className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+        <section className="bg-white rounded-xl shadow-md border border-slate-200 p-6 mb-6">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">
             1. Basic Practice Information
           </h2>
@@ -415,7 +415,7 @@ export default function Home() {
         </section>
 
         {/* Phase 2: Financial Context */}
-        <section className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+        <section className="bg-white rounded-xl shadow-md border border-slate-200 p-6 mb-6">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">
             2. Financial Picture
           </h2>
@@ -675,7 +675,7 @@ export default function Home() {
         )}
 
         {/* Phase 3: Detailed Analysis */}
-        <section className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+        <section className="bg-white rounded-xl shadow-md border border-slate-200 p-6 mb-6">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">
             3. Detailed Breakdown (Optional)
           </h2>
@@ -804,7 +804,7 @@ export default function Home() {
         </section>
 
         {/* Context: The Bigger Picture */}
-        <section className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+        <section className="bg-slate-50 rounded-xl shadow-md border border-slate-200 p-6 mb-6">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">
             The Bigger Picture
           </h2>
@@ -833,7 +833,7 @@ export default function Home() {
         </section>
 
         {/* Data Sources */}
-        <section className="bg-white rounded-lg shadow-sm border p-6">
+        <section className="bg-white rounded-xl shadow-md border border-slate-200 p-6">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">
             Data Sources
           </h2>
@@ -856,21 +856,24 @@ export default function Home() {
           </ul>
         </section>
 
-        {/* Footer */}
-        <footer className="mt-8 text-center text-sm text-slate-500">
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-slate-800 text-white py-8 mt-8">
+        <div className="max-w-4xl mx-auto px-4 text-center">
           <p>
-            Independent tool by <a href="https://aryash.health" className="text-teal-600 hover:underline">Aryash Health</a>
+            Independent tool by <a href="https://aryash.health" className="text-teal-400 hover:underline">Aryash Health</a>
           </p>
-          <p className="mt-1">
+          <p className="mt-2 text-slate-400 text-sm">
             Data sourced from NHS Digital. This tool is for information only and does not constitute financial or business advice.
           </p>
-          <p className="mt-3">
-            <a href="/" className="text-teal-600 hover:underline">
+          <p className="mt-4">
+            <a href="/" className="text-teal-400 hover:underline">
               &larr; Back to Tools Home
             </a>
           </p>
-        </footer>
-      </main>
+        </div>
+      </footer>
     </div>
   );
 }

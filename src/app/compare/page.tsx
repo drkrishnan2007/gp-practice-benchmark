@@ -127,7 +127,7 @@ function MetricCard({
   };
 
   return (
-    <div className="bg-white p-3 md:p-4 rounded-lg border shadow-sm">
+    <div className="bg-white p-3 md:p-4 rounded-lg border border-slate-200 shadow-md">
       <div className="flex items-start justify-between gap-2 mb-2">
         <p className="text-xs md:text-sm font-medium text-slate-600">{label}</p>
         {strategy !== "neutral" ? (
@@ -247,7 +247,7 @@ function ComparePageContent() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-100">
         <header className="bg-gradient-to-r from-teal-600 to-teal-700 text-white py-6">
           <div className="max-w-4xl mx-auto px-4">
             <h1 className="text-2xl md:text-3xl font-bold">GP Practice Comparison</h1>
@@ -255,7 +255,7 @@ function ComparePageContent() {
           </div>
         </header>
         <main className="max-w-4xl mx-auto px-4 py-8">
-          <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
+          <div className="bg-white rounded-lg shadow-md border p-8 text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto"></div>
             <p className="mt-4 text-slate-600">Loading {data?.practiceCount?.toLocaleString() || ''} practices...</p>
           </div>
@@ -267,7 +267,7 @@ function ComparePageContent() {
   // Error state
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-100">
         <header className="bg-gradient-to-r from-teal-600 to-teal-700 text-white py-6">
           <div className="max-w-4xl mx-auto px-4">
             <h1 className="text-2xl md:text-3xl font-bold">GP Practice Comparison</h1>
@@ -283,7 +283,7 @@ function ComparePageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-100">
       {/* Header */}
       <header className="bg-gradient-to-r from-teal-600 to-teal-700 text-white py-6">
         <div className="max-w-4xl mx-auto px-4">
@@ -296,7 +296,7 @@ function ComparePageContent() {
 
       <main className="max-w-4xl mx-auto px-4 py-8">
         {/* Search Section */}
-        <section className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+        <section className="bg-white rounded-xl shadow-md border-l-4 border-l-teal-500 border border-slate-200 p-6 mb-6">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">Find Your Practice</h2>
 
           <div className="relative">
@@ -343,7 +343,7 @@ function ComparePageContent() {
         {/* Selected Practice Info */}
         {selectedPractice && currentAggregate && (
           <>
-            <section className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+            <section className="bg-white rounded-xl shadow-md border border-slate-200 p-6 mb-6">
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                 <div>
                   <h2 className="text-xl font-semibold text-slate-800">{selectedPractice.name}</h2>
@@ -481,7 +481,7 @@ function ComparePageContent() {
             </section>
 
             {/* Comparison Level Toggle */}
-            <section className="bg-white rounded-lg shadow-sm border p-4 mb-6">
+            <section className="bg-white rounded-xl shadow-md border border-slate-200 p-4 mb-6">
               <p className="text-sm font-medium text-slate-600 mb-3">Compare against:</p>
               <div className="grid grid-cols-4 gap-2">
                 {(["pcn", "icb", "region", "national"] as ComparisonLevel[]).map((level) => (
@@ -601,7 +601,7 @@ function ComparePageContent() {
             </section>
 
             {/* Workforce Breakdown */}
-            <section className="bg-white rounded-lg shadow-sm border p-4 md:p-6 mb-6">
+            <section className="bg-white rounded-xl shadow-md border border-slate-200 p-4 md:p-6 mb-6">
               <h2 className="text-lg md:text-xl font-semibold text-slate-800 mb-4">Workforce Breakdown</h2>
               <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
                 <table className="w-full text-left min-w-[320px]">
@@ -658,7 +658,7 @@ function ComparePageContent() {
 
         {/* Empty State */}
         {!selectedPractice && (
-          <section className="bg-white rounded-lg shadow-sm border p-8 text-center">
+          <section className="bg-white rounded-xl shadow-md border border-slate-200 p-8 text-center">
             <p className="text-slate-500 text-lg">
               Search for your practice above to see how you compare
             </p>
@@ -669,7 +669,7 @@ function ComparePageContent() {
         )}
 
         {/* Data Sources */}
-        <section className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+        <section className="bg-white rounded-xl shadow-md border border-slate-200 p-6 mb-6">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">Data Sources</h2>
           <ul className="space-y-2 text-sm">
             <li>
@@ -708,21 +708,24 @@ function ComparePageContent() {
           </p>
         </section>
 
-        {/* Footer */}
-        <footer className="mt-8 text-center text-sm text-slate-500">
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-slate-800 text-white py-8 mt-8">
+        <div className="max-w-4xl mx-auto px-4 text-center">
           <p>
-            Independent tool by <a href="https://aryash.health" className="text-teal-600 hover:underline">Aryash Health</a>
+            Independent tool by <a href="https://aryash.health" className="text-teal-400 hover:underline">Aryash Health</a>
           </p>
-          <p className="mt-1">
+          <p className="mt-2 text-slate-400 text-sm">
             Data sourced from NHS Digital. This tool is for information only and does not constitute financial or business advice.
           </p>
-          <p className="mt-3">
-            <a href="/" className="text-teal-600 hover:underline">
+          <p className="mt-4">
+            <a href="/" className="text-teal-400 hover:underline">
               &larr; Back to Tools Home
             </a>
           </p>
-        </footer>
-      </main>
+        </div>
+      </footer>
     </div>
   );
 }
@@ -730,7 +733,7 @@ function ComparePageContent() {
 // Loading fallback for Suspense
 function LoadingFallback() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-100">
       <header className="bg-gradient-to-r from-teal-600 to-teal-700 text-white py-6">
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-2xl md:text-3xl font-bold">GP Practice Comparison</h1>
@@ -740,7 +743,7 @@ function LoadingFallback() {
         </div>
       </header>
       <main className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-sm border p-6 animate-pulse">
+        <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6 animate-pulse">
           <div className="h-6 bg-slate-200 rounded w-1/3 mb-4"></div>
           <div className="h-12 bg-slate-200 rounded w-full"></div>
         </div>
