@@ -18,8 +18,9 @@ export default function LandingPage() {
               <h1 className="text-3xl md:text-4xl font-bold mb-2">
                 Dr Krishnan Pasupathi
               </h1>
-              <p className="text-teal-100 text-lg mb-4">
-                MBBS MRCSEd MRCGP FHEA MBA
+              <p className="text-teal-100 text-base md:text-lg mb-4">
+                <span className="hidden sm:inline">MBBS MRCSEd MRCGP FHEA MBA</span>
+                <span className="sm:hidden">MBBS · MRCGP · FHEA · MBA</span>
               </p>
               <p className="text-xl text-white mb-4">
                 GP Partner & Trainer
@@ -136,45 +137,45 @@ export default function LandingPage() {
             Core areas of focus across clinical practice and leadership.
           </p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white rounded-lg border border-slate-200 p-5">
-              <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
-                <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-5">
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-2 md:mb-3">
+                <svg className="w-4 h-4 md:w-5 md:h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-slate-800 mb-1">Multimorbidity</h3>
-              <p className="text-sm text-slate-600">Managing patients with multiple long-term conditions</p>
+              <h3 className="font-semibold text-slate-800 text-sm md:text-base mb-1">Multimorbidity</h3>
+              <p className="text-xs md:text-sm text-slate-600">Managing patients with multiple long-term conditions</p>
             </div>
 
-            <div className="bg-white rounded-lg border border-slate-200 p-5">
-              <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
-                <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-5">
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-2 md:mb-3">
+                <svg className="w-4 h-4 md:w-5 md:h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-slate-800 mb-1">Medical Education</h3>
-              <p className="text-sm text-slate-600">Training registrars, AI-enhanced learning resources</p>
+              <h3 className="font-semibold text-slate-800 text-sm md:text-base mb-1">Medical Education</h3>
+              <p className="text-xs md:text-sm text-slate-600">Training registrars, AI-enhanced resources</p>
             </div>
 
-            <div className="bg-white rounded-lg border border-slate-200 p-5">
-              <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
-                <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-5">
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-2 md:mb-3">
+                <svg className="w-4 h-4 md:w-5 md:h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-slate-800 mb-1">Men&apos;s Health</h3>
-              <p className="text-sm text-slate-600">Surgical background applied to general practice</p>
+              <h3 className="font-semibold text-slate-800 text-sm md:text-base mb-1">Men&apos;s Health</h3>
+              <p className="text-xs md:text-sm text-slate-600">Surgical background in general practice</p>
             </div>
 
-            <div className="bg-white rounded-lg border border-slate-200 p-5">
-              <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3">
-                <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-lg border border-slate-200 p-4 md:p-5">
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-2 md:mb-3">
+                <svg className="w-4 h-4 md:w-5 md:h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-slate-800 mb-1">Management</h3>
-              <p className="text-sm text-slate-600">Business and systems thinking in healthcare</p>
+              <h3 className="font-semibold text-slate-800 text-sm md:text-base mb-1">Management</h3>
+              <p className="text-xs md:text-sm text-slate-600">Business thinking in healthcare</p>
             </div>
           </div>
         </section>
