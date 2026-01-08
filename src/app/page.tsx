@@ -1,6 +1,10 @@
-"use client";
-
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "GP Practice Tools | Aryash Health",
+  description: "Free tools for GP partners and practice managers. Benchmark your practice against NHS Digital data - workforce, finances, and QOF performance.",
+};
 
 export default function LandingPage() {
   return (
