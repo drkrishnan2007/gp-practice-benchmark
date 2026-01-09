@@ -113,7 +113,7 @@ export const blogPosts: BlogPost[] = [
   <h2 class="text-xl font-bold text-teal-800 mb-3">கற்றது கைமண் அளவு, கல்லாதது கடல் அளவு</h2>
   <p class="text-slate-700 mb-4">There is a saying in Tamil, my mother tongue:</p>
   <p class="text-lg italic text-slate-600 mb-4">"Katradu kaiman alavu, kalladadu kadal alavu."</p>
-  <p class="text-slate-700"><strong>What you have learned is only a handful of water. What you are unaware of is like the entire ocean.</strong></p>
+  <p class="text-slate-700"><strong>What you have learned is only a handful of sand. What you are unaware of is like the entire ocean.</strong></p>
 </div>
 
 <p class="mb-6">I have taken only the first step into technology in healthcare. But I know there is a beautiful scenery ahead for those willing to explore.</p>
