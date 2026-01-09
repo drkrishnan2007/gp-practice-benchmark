@@ -77,6 +77,18 @@ export const blogPosts: BlogPost[] = [
 
 <p class="mb-8 text-lg">All of these are live. All of them work. And I built them without writing a single line of code myself.</p>
 
+<h2 class="text-2xl font-bold text-slate-800 mt-10 mb-4">Credit Where It's Due</h2>
+
+<p class="mb-6">I want to be honest about the tools that helped me. While Claude Code was my primary companion for building these applications, I also used other AI tools along the way:</p>
+
+<ul class="list-disc list-inside mb-8 space-y-2 text-slate-600">
+  <li><strong>Claude Code</strong> — The main tool for building and deploying the applications</li>
+  <li><strong>ChatGPT</strong> — Helped refine outputs and improve the quality of content</li>
+  <li><strong>Google Gemini</strong> — Created all the infographics and visual elements</li>
+</ul>
+
+<p class="mb-8">Each tool has its strengths. The key is knowing when to use which one — and being willing to experiment.</p>
+
 <h2 class="text-2xl font-bold text-slate-800 mt-10 mb-4">Why I Did This</h2>
 
 <p class="mb-6">I wanted to create something for patients that was completely free. Something that explained health information in simple English, without the jargon that we doctors sometimes forget is jargon.</p>
