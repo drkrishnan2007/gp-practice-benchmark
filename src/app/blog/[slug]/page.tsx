@@ -53,7 +53,7 @@ export default async function ArticlePage({ params }: Props) {
         <div className="max-w-3xl mx-auto px-4">
           <Link
             href="/blog"
-            className="inline-flex items-center text-teal-100 hover:text-white text-sm mb-4 transition-colors"
+            className="inline-flex items-center text-teal-100 hover:text-white text-sm transition-colors"
           >
             <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -62,9 +62,11 @@ export default async function ArticlePage({ params }: Props) {
           </Link>
 
           {/* Category */}
-          <span className="inline-block px-3 py-1 bg-teal-500 text-white text-xs font-medium rounded mb-4">
-            {post.category}
-          </span>
+          <div className="mt-4 mb-4">
+            <span className="px-3 py-1 bg-teal-500 text-white text-xs font-medium rounded">
+              {post.category}
+            </span>
+          </div>
 
           {/* Title */}
           <h1 className="text-2xl md:text-4xl font-bold leading-tight">
