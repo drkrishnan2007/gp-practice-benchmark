@@ -872,6 +872,10 @@ export default function Home() {
               &larr; Back to Tools Home
             </a>
             <span className="text-slate-600">|</span>
+            <a href="/blog" className="text-teal-400 hover:underline">
+              Blog
+            </a>
+            <span className="text-slate-600">|</span>
             <a href="https://tools.aryash.health/privacy.html" className="text-teal-400 hover:underline">
               Privacy
             </a>

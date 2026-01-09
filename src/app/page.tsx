@@ -328,7 +328,51 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Data Sources - White background */}
+      {/* Blog Section - White background */}
+      <section className="bg-white py-12 md:py-16">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="flex items-center gap-3 mb-2">
+            <h2 className="text-2xl font-bold text-slate-800">Blog & Insights</h2>
+            <span className="px-2 py-0.5 bg-teal-100 text-teal-700 text-xs font-medium rounded-full">New</span>
+          </div>
+          <p className="text-slate-600 mb-6">
+            Reflections on AI in healthcare, practice management, and innovation in primary care.
+          </p>
+
+          <Link
+            href="/blog/claude-code-journey"
+            className="group block bg-white rounded-xl border-l-4 border-l-teal-500 border border-slate-200 shadow-md hover:shadow-xl hover:border-teal-300 transition-all p-4 md:p-6 max-w-2xl"
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <span className="px-2 py-1 bg-teal-50 text-teal-700 text-xs font-medium rounded">
+                AI in Healthcare
+              </span>
+              <span className="text-slate-400 text-xs">Featured</span>
+            </div>
+            <h3 className="text-lg md:text-xl font-semibold text-slate-800 group-hover:text-teal-700 transition-colors mb-2">
+              What I Built in 3 Weeks With Zero Coding Experience
+            </h3>
+            <p className="text-slate-600 text-sm mb-4">
+              A GP&apos;s journey into healthcare technology with Claude Code — from knowing nothing about terminals to building 13 healthcare tools.
+            </p>
+            <div className="flex items-center text-teal-600 text-sm font-medium">
+              Read Article
+              <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </Link>
+
+          <Link
+            href="/blog"
+            className="inline-flex items-center text-teal-600 hover:underline text-sm mt-4"
+          >
+            View all articles →
+          </Link>
+        </div>
+      </section>
+
+      {/* Data Sources - Slate background */}
       <section className="bg-white py-8">
         <div className="max-w-5xl mx-auto px-4">
           <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
@@ -361,6 +405,9 @@ export default function LandingPage() {
               </p>
             </div>
             <div className="flex flex-col gap-2 text-sm md:text-right">
+              <Link href="/blog" className="text-teal-400 hover:text-teal-300 transition-colors">
+                Blog
+              </Link>
               <a href="https://tools.aryash.health" className="text-teal-400 hover:text-teal-300 transition-colors">
                 Patient Tools
               </a>
